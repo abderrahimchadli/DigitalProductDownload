@@ -1,0 +1,55 @@
+Metadata-Version: 2.1
+Name: backblaze
+Version: 0.1.1
+Summary: Wrapper for Backblaze
+Home-page: https://backblaze.readthedocs.io/en/latest/
+Author: WardPearce
+Author-email: wardpearce@protonmail.com
+License: GPL-3.0 License
+Platform: UNKNOWN
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: httpx (>=0.16.1)
+Requires-Dist: aiofile (>=3.1.0)
+Requires-Dist: aiofiles
+Requires-Dist: asynctest
+Requires-Dist: sphinxcontrib-trio
+Requires-Dist: sphinx-material
+
+## Welcome to Backblaze's unofficial python wrapper!
+
+This is a unofficial asynchronous & synchronous wrapper for Backblaze's B2 API.
+
+The awaiting version requires Python ``3.7`` or above!
+
+### Features:
+
+- Full API coverage.
+- Static typing with [PyRight](https://github.com/microsoft/pyright).
+- Background authentication.
+- Asynchronous & synchronous support.
+- Easy to use with an object oriented design.
+- Unit testing.
+- Upload URL caching.
+- Rate limit handler.
+
+### Install
+
+- Pip:``pip3 install backblaze``
+- Git:``pip3 install git+https://github.com/WardPearce/backblaze.git``
+
+### Examples
+
+- [Upload file](/examples/file_uploader.py)
+- Have an example? Make a PR!
+
+### Documentation
+
+[Documentation](https://backblaze.readthedocs.io/en/latest/)
+
+### Thanks to
+
+- [Encode for creating HTTPX](https://www.python-httpx.org/)
+
+

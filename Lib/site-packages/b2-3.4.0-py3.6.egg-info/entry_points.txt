@@ -1,0 +1,3 @@
+[console_scripts]
+b2 = b2.console_tool:main
+

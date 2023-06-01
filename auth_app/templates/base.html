@@ -1,0 +1,81 @@
+{% load static %}
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - {{SHOPIFY_APP_NAME}}</title>
+    <link rel="stylesheet" href="{% static 'assets/extensions/choices.js/public/assets/styles/choices.css'%}">
+    <link rel="stylesheet" href="{% static 'assets/css/main/app.css'%}">
+    <link rel="stylesheet" href="{% static 'assets/css/main/app-dark.css'%}">
+    <link rel="shortcut icon" href="{% static 'assets/images/logo/favicon.svg'%}" type="image/x-icon">
+    <link rel="shortcut icon" href="{% static 'assets/images/logo/favicon.png'%}" type="image/png">
+    <link rel="stylesheet" href="{% static 'assets/extensions/quill/quill.snow.css'%}">
+    <link rel="stylesheet" href="{% static 'assets/extensions/quill/quill.bubble.css'%}">
+    <link rel="stylesheet" href="{% static 'assets/css/pages/fontawesome.css'%}">
+    <link rel="stylesheet" href="{% static 'assets/extensions/datatables.net-bs5/css/dataTables.bootstrap5.min.css'%}">
+    <link rel="stylesheet" href="{% static 'assets/css/pages/datatables.css'%}">
+
+  </head>
+  
+  <body>
+
+    <div  class="layout-horizontal">
+
+      <header class="mb-5">
+          <div class="header-top">
+              <div class="container">
+                  <div class="logo">
+                      <a href="/"><img src="{% static 'assets/images/logo/logo.svg'%}" alt="Logo" style="height:50px;"></a>
+                  </div>
+                  <div class="header-top-right">
+{% if request.user.is_authenticated %}
+
+                      <div class="dropdown">
+                          <a href="#" id="topbarUserDropdown" class="user-dropdown d-flex align-items-center dropend dropdown-toggle " data-bs-toggle="dropdown" aria-expanded="false">
+                              <div class="text">
+                                  <h6 class="user-dropdown-name">{{request.user.myshopify_domain}}</h6>
+                              </div>
+                          </a>
+                          <ul class="dropdown-menu dropdown-menu-end shadow-lg" aria-labelledby="topbarUserDropdown">
+                            <li><a class="dropdown-item" href="/logout/">Logout</a></li>
+                          </ul>
+                      </div>
+{% endif  %}
+
+                      <!-- Burger button responsive -->
+                      <a href="#" class="burger-btn d-block d-xl-none">
+                          <i class="bi bi-justify fs-3"></i>
+                      </a>
+                  </div>
+              </div>
+          </div>
+        </header>
+      </div>
+
+
+
+    <div class='container'>
+
+        {% block content %}
+    
+    
+        {% endblock %}
+    </div>
+<!-- Start of HubSpot Embed Code -->
+<!--<script type="text/javascript" id="hs-script-loader" async defer src="//js-na1.hs-scripts.com/23309239.js"></script>-->
+<!-- End of HubSpot Embed Code --><!-- End of HubSpot Embed Code -->
+    <script src="{% static 'assets/js/bootstrap.js'%}"></script>
+    <script src="{% static 'assets/js/app.js'%}"></script>
+    <script src="{% static 'assets/extensions/quill/quill.min.js'%}"></script>
+    <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
+    <script src="{% static 'assets/extensions/choices.js/public/assets/scripts/choices.js'%}"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="{% static 'assets/js/pages/horizontal-layout.js'%}"></script>
+    <script src="{% static 'assets/js/bootstrap.js'%}"></script>
+    <script src="{% static 'assets/js/app.js'%}"></script>
+
+    
+
+</html>

@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "sharp-starlight-260413",
+  "private_key_id": "ac00b04cb714559e6b5ddaf20d6beb9a1adb2f6d",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQDnVYHBIadiIQAh\nffrMWxSnQ5B4wj9Dr1GlqebDE1MnL5lMAom7dfOWLxmRhlO2vUiuPkmF8YSvuD2F\n9CgqmuQq9IDNl8eB/bbm8EQzuErixqaAyioSM8R2igypJZoOmwBMiq3qxSPgSHm7\nC4fxSA8StvIeUwbC8T05YMriPORmIqG/aZ3Qnl34Dfc+ojrIM+ivudw4gTyGxhm4\nINp6REn+n4jKqYyDZtJc53Jy/fC2BdzhtnQKG8h9R8O/+Zl8J/25YgpGniGGx8pV\nKEkdbJej0/0OYZ/jwwVOmrET37SjHUcOAPMsoofuFRTYDFjH+dMTDkbgwGkPX1Z0\n74KS4Pb1AgMBAAECggEALaP/H52GKqQcJH94dc0afA2meUzJso7qaubkcmRjqX2I\nnyh5CBUzY9QTFVUNOyaJKmd7lgOajBirerw7GHzKu3bV2roxUIJADbwlmJapn6hV\nvV8lgcXY4xJFgTG7/Vmza2aI/aK7e0qRScfyoDX5U1Xo2vbChL+XtrRUEuK0pTmb\n0j6mQJ111ZDgDCNDXGioR+bJvZLChoSaWMX1gAddwXOSANjs8LTunapwOQjeVGR2\nTI7xDUCYZOywNhLdr0j7DhXqUJ0uOyGWHp9F5rYC9Wbp6yq3X4Dv/qNxdnpNB05x\nMhrDUsEHMkPTUfOsqer9Bo5m+JObMmaFu3HwCrX0wQKBgQD/ClIm5aVIMoMo485i\nyBXWcmsLJVrmJF5gV3A3zw8ovfw9fBOOqhJkTkPVm1X2twMJnV8W79kG8BHoddwQ\nMIrDVoo3BZy7I4Eqcz/oFNPe46/F9wtl4YClUhk3n0rFy4YUPXQJt/Zb7xeNfJFI\ne2pqbOmSDpLGNPRURLD5FK7dDQKBgQDoNFmLIJgZ3pf10FPz4kKlX7yg6qu9lzTS\n5BvwrT/dfAIkS3qYFvx0+Zd/eKOsR7yQpKiB4pfb2qRuTRp996dRm+Jj0K0om+eG\nfwEeCMvZWecCqXrYChfvnbg8ee6hwMDOTfUlD1/UBg7hfIZ0peZY0aIVGoMXvvFS\nX+02mhKXiQKBgGEjDDEWbEI4Qu5S/atv66lWwOBo5Nsc5PkqtGn9KhfpbGX6mPRQ\nYFrl2D5GQJKMF9MUpj/1MCLNUvTH1v4vjtphXpkgQRahqjOB28hIDn4pGCx9MFEo\ndzgAMeyWdgMpxjJ1SXneIC3ZvY288RS7NMe+HaPsewiU6K4jz4e+0e8NAoGAHI6z\npISxsBzMG5MvgAMHp0cK789sp7h86qLbPNJR1G934/bUcPgCvHAlzauMlZeM/U0C\n3FZ9zrApINeitnNKxKKjSRtU8HWcF9Ju1L7IM0b3PkCRtxgmsXV4PxfP3VzTWYwE\n5jXp1y2Xjuu9rYLpvWqqwGWuUbFOBI9/oQN53eECgYB7YRqRSuetH1RoOep5hizO\nHVhXEkNjt7pYcq2UUa0lzA+Xqi6xAhMBIp8si0nT5qRDD4tDVtZc7Rwcfqm7KQ19\nchjOdosioJmvueBUMkUBQJI6YlFNTz2/hGb7zr3NTcdaiII0L1CGMYv8PTP0WwG6\no6aVAp+mvufJ1AJg5W87WQ==\n-----END PRIVATE KEY-----\n",
+  "client_email": "digitaldownload@sharp-starlight-260413.iam.gserviceaccount.com",
+  "client_id": "110158953620589764087",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/digitaldownload%40sharp-starlight-260413.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

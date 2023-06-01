@@ -1,0 +1,14 @@
+arrow<2.0.0,>=1.0.2
+logfury<2.0.0,>=1.0.1
+requests<3.0.0,>=2.9.1
+tqdm<5.0.0,>=4.5.0
+
+[:python_version < "3.8"]
+importlib-metadata>=3.3.0
+
+[doc]
+sadisplay
+sphinx<5.0
+sphinx-autobuild
+sphinx-rtd-theme
+sphinxcontrib-plantuml
