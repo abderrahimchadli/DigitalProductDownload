@@ -1,0 +1,372 @@
+{% extends "base.html" %} {% block content %} {% load static %} <head>
+    <html lang="en">
+  
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Layout Horizontal - Mazer Admin Dashboard</title>
+        
+  
+    <link rel="stylesheet" href="{% static 'assets/css/shared/iconly.css'%}">
+    <link rel="stylesheet" href="{% static 'assets/css/pages/fontawesome.css'%}">
+    <link rel="stylesheet" href="{% static 'assets/extensions/datatables.net-bs5/css/dataTables.bootstrap5.min.css'%}">
+    <link rel="stylesheet" href="{% static 'assets/css/pages/datatables.css'%}">
+    </head>
+    
+    <body>
+        <div id="app">
+            <div id="main" class="layout-horizontal">
+                <header class="mb-5">
+  
+                    <nav class="main-navbar">
+                        <div class="container">
+                            <ul>
+                                
+                                
+                                
+                                <li
+                                    class="menu-item  ">
+                                    <a href="index.html" class='menu-link'>
+                                        <i class="bi bi-house-fill"></i>
+                                        <span>Home</span>
+                                    </a>
+                                </li>
+                                
+                                
+                                
+                                <li
+                                    class="menu-item  ">
+                                    <a href="/license-key" class='menu-link'>
+                                        <i class="bi bi-key-fill"></i>
+                                        <span>License Keys</span>
+                                    </a>
+                                </li>
+                                
+                                
+                                
+                                <li
+                                    class="menu-item  ">
+                                    <a href="index.html" class='menu-link'>
+                                        <i class="bi bi-box-fill"></i>
+                                        <span>Orders</span>
+                                    </a>
+                                </li>
+                                
+                                
+                                
+                                <li
+                                    class="menu-item  ">
+                                    <a href="index.html" class='menu-link'>
+                                        <i class="bi bi-envelope-paper-fill"></i>
+                                        <span>Email Template</span>
+                                    </a>
+                                </li>
+                                
+                                
+                                
+                                <li
+                                    class="menu-item  ">
+                                    <a href="index.html" class='menu-link'>
+                                        <i class="bi bi-patch-check-fill"></i>
+                                        <span>Upgrade</span>
+                                    </a>
+                                </li>
+  
+                                <li
+                                    class="menu-item  ">
+                                    <a href="index.html" class='menu-link'>
+                                        <i class="bi bi-sliders"></i>
+                                        <span>Settings</span>
+                                    </a>
+                                </li>
+  
+                                
+                                <li
+                                class="menu-item  ">
+                                <a href="index.html" class='menu-link'>
+                                    <i class="bi bi-chat-square-dots"></i>
+                                    <span>FAQ And Help</span>
+                                </a>
+                            </li>
+                                
+                                
+  
+                                
+                                
+                                
+  
+                                
+                                
+                                
+  
+                                
+                                
+                            </ul>
+                        </div>
+                    </nav>
+    
+                </header>
+    
+  <div class="content-wrapper container">
+                    
+  
+    <div class="page-content">
+        <section class="row">
+            <div class="col-12 ">
+                <div class="row">
+                    <div class="col-6 col-lg-3 col-md-6">
+                        <div class="card">
+                            <div class="card-body px-4 py-4-5">
+                                <div class="row">
+                                    <div class="col-md-4 col-lg-12 col-xl-12 col-xxl-5 d-flex justify-content-start ">
+                                        <div class="stats-icon purple mb-2">
+                                            <i class="iconly-bi bi-box-fill"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
+                                        <h6 class="text-muted font-semibold">Orders</h6>
+                                        <h6 class="font-extrabold mb-0">0/30</h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-lg-3 col-md-6">
+                        <div class="card">
+                            <div class="card-body px-4 py-4-5">
+                                <div class="row">
+                                    <div class="col-md-4 col-lg-12 col-xl-12 col-xxl-5 d-flex justify-content-start ">
+                                        <div class="stats-icon blue mb-2">
+                                            <i class="iconly-bi bi-cloud-download-fill"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
+                                        <h6 class="text-muted font-semibold">Digital Products</h6>
+                                        <h6 class="font-extrabold mb-0">0/3</h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-lg-3 col-md-6">
+                        <div class="card">
+                            <div class="card-body px-4 py-4-5">
+                                <div class="row">
+                                    <div class="col-md-4 col-lg-12 col-xl-12 col-xxl-5 d-flex justify-content-start ">
+                                        <div class="stats-icon green mb-2">
+                                            <i class="iconly-bi bi-capslock-fill"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
+                                        <h6 class="text-muted font-semibold">Storage</h6>
+                                        <h6 class="font-extrabold mb-0">0/100 MB</h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-lg-3 col-md-6">
+                        <div class="card">
+                            <div class="card-body px-4 py-4-5">
+                                <div class="row">
+                                    <div class="col-md-4 col-lg-12 col-xl-12 col-xxl-5 d-flex justify-content-start ">
+                                        <div class="stats-icon red mb-2">
+                                            <i class="iconly-bi bi-arrow-repeat"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
+                                        <h6 class="text-muted font-semibold">bandwidth</h6>
+                                        <h6 class="font-extrabold mb-0">0/3 GB</h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4>Manage Your License Keys</h4>
+                            </div>
+                            <div class="card-body">
+                                <div id="chart-profile-visit"></div>
+  
+                                <div class="row">
+                                  <div class="col-md-12 col-12">
+                                      <div class="card">
+   
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+                                          <div class="row">
+                                              <div class="col">
+                                                  <section class="section">
+                                                      
+                                                      <div class="card">
+                                                          <div class="card-header">
+                                                              Select a product/variant to link your digital downloads
+                                                          </div>
+                                                          <div class="card-body">
+                                                            <table class="table" id="Productdatatable">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th>Product/Variant</th>
+                                                                        <th>Key</th>
+                                                                        <th>Statue</th>
+                                                                        <th>Options</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                </tbody>
+                                                            </table>
+                                                                                                  </div>
+                                                      </div>
+                                             
+                                                  </section> 
+                                              </div>
+                                          </div>
+                                          </div>
+                                      </div>
+                                  </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+  
+        </section>
+    </div>
+    
+                </div>
+    
+                <footer>
+                    <div class="container">
+                        <div class="footer clearfix mb-0 text-muted">
+                            <div class="float-start">
+                                <p>2021 &copy; Mazer</p>
+                            </div>
+                            <div class="float-end">
+                                <p>Crafted with <span class="text-danger"><i class="bi bi-heart"></i></span> by <a
+                                    href="https://saugi.me">Saugi</a></p>
+                            </div>
+                        </div>
+                    </div>
+                </footer>
+            </div>
+        </div>
+        <script src="{% static 'assets/js/bootstrap.js'%}"></script>
+        <script src="{% static 'assets/js/app.js'%}"></script>
+        <script src="{% static 'assets/js/pages/horizontal-layout.js'%}"></script>
+        <script src="{% static 'assets/extensions/jquery/jquery.min.js'%}"></script>
+        <script src="https://cdn.datatables.net/v/bs5/dt-1.12.1/datatables.min.js"></script>
+        <script src="{% static 'assets/js/pages/datatables.js'%}"></script>
+    
+    
+    </body>
+    
+    </html>
+  
+    {% block javascript %} 
+  <script>
+    $.ajaxSetup({
+        headers: {
+            'X-CSRFToken': '{{ csrf_token }}'
+        }
+    });
+
+            
+    
+    
+
+    $(document).ready(function() {
+        // Function to fetch serial keys data from the server
+        function fetchSerialKeys() {
+            $.ajax({
+                url: '/get_serial_keys/', // Replace with the actual URL
+                type: 'GET',
+                dataType: 'json',
+                success: function(data) {
+                    console.log(data)
+                    data=data.data
+                    // Initialize the DataTable
+
+                    $('#Productdatatable').DataTable({
+                        data: data,
+                        columns: [
+                            { data: 'variant' },
+                            { data: 'key' },
+                            { data: 'is_used' },
+                            { data: 'id'}
+                        ],
+                        columnDefs: [
+                            {
+                                targets:0 ,
+                                render: function(data,type,row){
+                                    return row.product + ' - ' + row.variant
+                                }
+                            },
+                            {
+                                targets:-1 ,
+                                render: function(data,type,row){
+                                    return `<button class="btn btn-primary btn-sm" data-id='${data}'>edit</button> - 
+                                    
+                                    `;
+                                }
+                            },
+                        ]
+                    });
+
+                },
+                error: function(xhr, status, error) {
+                    console.error(error);
+                }
+            });
+        }
+
+        // Call the fetchSerialKeys function to populate the DataTable on page load
+        fetchSerialKeys();
+    });
+
+
+
+
+
+
+    
+    
+
+
+
+
+
+    
+
+  </script>
+    {% endblock javascript %} 
+    
+    {% endblock %}

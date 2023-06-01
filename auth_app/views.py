@@ -149,70 +149,28 @@ def getproduct(request, *args, **kwargs):
 
     return JsonResponse({"status":True,"msg":"",'data':rsp_obj})
 
+def getproduct(request, *args, **kwargs):
+    jsproducts=[]
+    with request.user.session:
+        products = shopify.Product.find()
+        for product in products:
+            
+            jsproducts.append(product.to_dict())
+        
+    print(jsproducts)        
+    rsp_obj = {'products': jsproducts}
+
+    return JsonResponse({"status":True,"msg":"",'data':rsp_obj})
 
 
-#def save_file_to_cloudflare_storage(file, filename):
-#    cf = CloudFlare.CloudFlare(email=settings.CF_API_EMAIL, token=settings.CF_API_KEY)
-#    zones = cf.zones.get(params={'per_page': 20})
-#
-#    try:
-#        with open(file.temporary_file_path(), 'rb') as f:
-#            file_bytes = f.read()
-#        response = None  # Initialize response variable to None
-#        response = cf.upload_bytes(file_bytes, filename)
-#        file_link = response['result']['url']
-#        return file_link
-#    except Exception as e:
-#        print(str(e))
-#        return None
+        
+
+
+
 from django.core.exceptions import ValidationError
 from django.db import transaction
 from django.views.decorators.http import require_POST
 from django.core.files.storage import FileSystemStorage
-
-
-import CloudFlare
-def upload_file_to_cloudflare_r2_storage(file_path, filename):
-    account_id = settings.CLOUDFLARE_ACCOUNT_ID
-    bucket_name = 'kjhg' # Replace with your R2 bucket name
-    namespace_id = "f5060c9dc8d746aea5ad41a4e6b562e0" # Replace with your R2 namespace ID
-    auth_email = settings.CF_API_EMAIL
-    auth_key = settings.CF_API_KEY
-    url = 'https://01ccae2a0f706f2be4b25b7f3dd45662.r2.cloudflarestorage.com/kjhg'
-    headers = {
-        'X-Auth-Email': auth_email,
-        'X-Auth-Key': auth_key,
-    }
-    with open(file_path, 'rb') as file:
-        response = requests.put(url, headers=headers, data=file)
-        if response.status_code == 200:
-            return True
-        else:
-            print(response.text)
-            return False
-
-
-
-#def upload_file_to_cloudflare_r2_storage(file_path, filename):
-#    api_key = settings.CF_API_KEY
-#    account_id = settings.CLOUDFLARE_ACCOUNT_ID
-#    zone_id = 'f5060c9dc8d746aea5ad41a4e6b562e0'
-#    bucket_name="kjhg"
-#    #zone_id = settings.CF_STORAGE_ZONE_ID
-#    url = f"https://api.cloudflare.com/client/v4/accounts/{account_id}/storage/kv/namespaces/{zone_id}/values/{filename}"
-#    headers = {
-#        'X-Auth-Email': settings.CF_API_EMAIL,
-#        'X-Auth-Key': api_key,
-#        'Content-Type': 'application/json',
-#    }
-#    print(url)
-#    with open(file_path, 'rb') as file:
-#        response = requests.put(url, headers=headers, data=file)
-#        if response.status_code == 200:
-#            return True
-#        else:
-#            print(response.text)
-#            return False
 
 from google.cloud import storage
 
@@ -326,8 +284,6 @@ def dp_form_submit(request):
                 )
 
 
-                #file_url = save_file_to_cloudflare_storage(variant_file, variant_file.name)
-                #print(file_url)
             # Create variant if specified
             if variant_name:
                 print(variant_has_serial_keys)
@@ -347,3 +303,27 @@ def dp_form_submit(request):
         response_data = {'success': False, 'message': str(e)}
         
     return JsonResponse(response_data)
+@login_required
+def license_key(request):
+    return render(request, 'license-key.html')
+
+
+@login_required
+def get_serial_keys(request):
+    # Retrieve all serial keys
+    serial_keys = SerialKey.objects.all()
+
+    # Prepare the serial keys data
+    keys_list = []
+    for key in serial_keys:
+        keys_list.append({
+            'id': key.id,
+            'variant': key.variant.name,
+            'product': key.variant.product.product_title,
+            'key': key.key,
+            'is_used': key.is_used,
+        })
+
+    return JsonResponse({"status":True,'data':keys_list})
+
+

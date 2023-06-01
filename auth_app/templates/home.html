@@ -36,7 +36,7 @@
                               
                               <li
                                   class="menu-item  ">
-                                  <a href="index.html" class='menu-link'>
+                                  <a href="/license-key" class='menu-link'>
                                       <i class="bi bi-key-fill"></i>
                                       <span>License Keys</span>
                                   </a>
@@ -621,6 +621,10 @@ $.ajaxSetup({
           {
             $('#default .modal-body .dp-type-container .dp-type-col').addClass('d-none');
             var selected_dp_type = $("input[name=dp-type]:checked").val();
+
+            
+            $('#default .modal-body .dp-type-container .dp-file input').val('');
+            $('#default .modal-body .dp-type-container .dp-url input').val('');
 
             if(selected_dp_type == 'file')
             {
