@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="{% static 'assets/extensions/datatables.net-bs5/css/dataTables.bootstrap5.min.css'%}">
     <link rel="stylesheet" href="{% static 'assets/css/pages/datatables.css'%}">
 
+
   </head>
   
   <body>
@@ -67,14 +68,24 @@
 <!--<script type="text/javascript" id="hs-script-loader" async defer src="//js-na1.hs-scripts.com/23309239.js"></script>-->
 <!-- End of HubSpot Embed Code --><!-- End of HubSpot Embed Code -->
     <script src="{% static 'assets/js/bootstrap.js'%}"></script>
-    <script src="{% static 'assets/js/app.js'%}"></script>
     <script src="{% static 'assets/extensions/quill/quill.min.js'%}"></script>
     <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
     <script src="{% static 'assets/extensions/choices.js/public/assets/scripts/choices.js'%}"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="{% static 'assets/js/pages/horizontal-layout.js'%}"></script>
-    <script src="{% static 'assets/js/bootstrap.js'%}"></script>
     <script src="{% static 'assets/js/app.js'%}"></script>
+    <script >
+        $(document).ready(function() {
+            let clctChoices  = new Choices($('.my-choices')[0],{
+                delimiter: ",",
+                editItems: true,
+                maxItemCount: -1,
+                removeItemButton: true,
+            });
+
+        });
+
+    </script>
 
     
 

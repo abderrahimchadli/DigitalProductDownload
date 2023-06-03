@@ -288,13 +288,39 @@
                                                                 <input type="hidden" class="form-control" id="product_title" value="" name="product_title" >
 
                                                             
-                                                            <h6>Basic Select with Input Group</h6>
-                                                            <div class="form-group">
-                                                                <label for="variant">Select variant</label>
-                                                                <select class="variants choices form-select" name="variant" id="variants" >
-                                                                </select>
-                                                                                    
+                                                                <h6>Basic Select with Input Group</h6>
+                                                            <div class="row">
+                                                                <div class="col-10">
+                                                                    <div class="form-group">
+                                                                        <label for="variant">Select variant</label>
+                                                                        <select class="variants choices form-select" name="variant" id="variants" multiple="multiple">
+                                                                        </select>                  
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-2">
+
+                                                                    Select all
+                                                                    <div class="form-check form-switch">
+                                                                        <input class="form-check-input" name="select_all_variants" type="checkbox" id="flexSwitchCheckChecked2">
+                                                                        <label class="form-check-label" for="flexSwitchCheckChecked2"></label>
+                                                                    </div>
+                                                                </div>
+
+
+                                                            
+                                                            
+
                                                             </div>
+                                                            <div class="row">
+                                                                
+                                                            </div>
+                                                            
+
+
+                                                            
+                            
+
+
 
 
                 
@@ -393,8 +419,8 @@
                                                                                                 <div class="card-body">
                                                                                                     <p>  Do You Want To Sell Using License Keys ? 
                                                                                                     <div class="form-check form-switch">
-                                                                                                        <input class="form-check-input" name="checkkeys" type="checkbox" id="flexSwitchCheckChecked"    >
-                                                                                                        <label class="form-check-label" for="flexSwitchCheckChecked"></label>
+                                                                                                        <input class="form-check-input" name="checkkeys" type="checkbox" id="flexSwitchCheckChecked1"    >
+                                                                                                        <label class="form-check-label" for="flexSwitchCheckChecked1"></label>
                                                                                                     </div>
                                                                                                 </div>
                                                                                             </div>
@@ -481,6 +507,19 @@
               </footer>
           </div>
       </div>
+
+      <div class="col-md-6 mb-4">
+        <h6>Basic Multiple choices</h6>
+        </p>
+        <div class="form-group">
+            <select class="choices my-choices form-select" multiple="multiple">
+                <option value='abc'>abc</option>
+                <option value='abcf'>abcf</option>
+                <option value='abcg'>abcg</option>
+            </select>
+        </div>
+    </div>
+
       <script src="{% static 'assets/js/bootstrap.js'%}"></script>
       <script src="{% static 'assets/js/app.js'%}"></script>
       <script src="{% static 'assets/js/pages/horizontal-layout.js'%}"></script>
@@ -514,6 +553,8 @@ $.ajaxSetup({
 });
     $(document).ready(function() {
         var Productdatatable=null
+        let var_choices;
+        let choices_items = [];
         $.get("search-product/", {}, function(response) {
         
             products=response.data.products
@@ -584,15 +625,40 @@ $.ajaxSetup({
             console.log(pInfos)
             $('#default .modal-header .modal-title').text("Edit digital product: "+pInfos.title);
             
-            $('#default .modal-body select.variants').html('<option value="" >All variants</option>')
+            $('#default .modal-body select.variants').html('')
 
             $.each(pInfos.variants, function(i, v) {
-            
+                
+                var obj = {
+                    "id": v.id,
+                    "sku": v.sku,
+                    "title": v.title
+                };
+
+                var value = JSON.stringify(obj);
+                value = encodeURI(value);
+                choices_items.push({
+                    value: value, 
+                    label: `Title:${v.title} - SKU:${v.sku}`, 
+                    id: i+1, 
+                    selected: false
+                });
+                /*
                 $('#default .modal-body select.variants').append(`
-                                    <option value="${v.id}" data-id="${v.id}" data-sku="${v.sku}">Title:${v.title} - SKU:${v.sku} </option>
-                                `);
+                                    <option value="${value}" >Title:${v.title} - SKU:${v.sku} </option>
+                `);
+                */
                                 
             });
+            var_choices = new Choices($('#default .modal-body select.variants')[0],{
+                delimiter: ",",
+                maxItemCount: -1,
+                removeItemButton: true,
+            }).setChoices(choices_items);
+
+            //choices_items = var_choices.getValue();
+            //console.log(choices_items);
+
 
             
             $("input[name=dp-type][value=file]").prop('checked', true);
@@ -658,10 +724,27 @@ $.ajaxSetup({
             select_key_type();
 
             
-                
-            
-            
           });
+       $('#default .modal-body input[name=select_all_variants]').on('change',function(){
+            
+            
+           
+            var is_selected = $(this).prop('checked');
+
+            choices_items = choices_items.map(function(item){
+                var newItem = item;
+                newItem.selected = is_selected;
+                return newItem;
+            });
+
+            var_choices.clearStore().setChoices(choices_items,'value','label',false);
+
+            
+            
+                
+                
+       });
+
 
 
 
@@ -745,12 +828,19 @@ $.ajaxSetup({
 
         $('form#SaveDP').submit(function(event) {
 
-            var slV = $('#default .modal-body select.variants option:selected');
-            console.log((slV.data("sku") !== undefined ? slV.data("sku") : ''))
+            //var slV = $('#default .modal-body select.variants option:selected');
+            //console.log((slV.data("sku") !== undefined ? slV.data("sku") : ''))
             event.preventDefault()
             var formdata = new FormData(this)
-            formdata.append('variantname',slV.text())
-            formdata.append('variantsku',(slV.data("sku") !== undefined ? slV.data("sku") : ' '))
+            let sel_variants = [];
+            $('#default .modal-body select.variants option:selected').each(function(i){
+                sel_variants.push(JSON.parse(decodeURI($( this ).val())));
+                //console.log(v.data("sku") !== undefined ? v.data("sku") : ' ');
+            });
+            sel_variants = JSON.stringify(sel_variants);
+
+            formdata.append('variants',sel_variants)
+            //formdata.append('variantsku',(slV.data("sku") !== undefined ? slV.data("sku") : ' '))
             
             
         
@@ -767,6 +857,7 @@ $.ajaxSetup({
                     alert('Form submission failed.');
                 }
             });
+            
             return false;
         });
 
@@ -778,6 +869,8 @@ $.ajaxSetup({
 
 
         $('#default').on('hide.bs.modal', function() {
+            var_choices.clearChoices().destroy();
+            choices_items = [];
             $('#default .modal-header .modal-title').text("");
             $('#default .modal-body select.variants').html('')
             $('#default .modal-body .dp-type-container .dp-type-col').removeClass('d-block').addClass('d-none');

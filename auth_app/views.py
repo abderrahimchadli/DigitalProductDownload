@@ -1,5 +1,5 @@
 from django.shortcuts import render
-import shopify 
+import shopify , os, json, requests
 from shopify_auth.decorators import login_required
 from django.shortcuts import redirect
 from .models import Plan
@@ -9,8 +9,6 @@ from .models import Billing ,Plan,Customer,DigitalProduct,Variant,SerialKey,Down
 from django.conf import settings
 from django.contrib.auth import logout
 from django.http import HttpResponse,JsonResponse
-import requests
-import os
 
 
 @login_required
@@ -180,22 +178,26 @@ def dp_form_submit(request):
     try:
         with transaction.atomic():
             # Extract form data
-            print(request.POST)
+            #print(request.POST)
             dp_type = request.POST.get('dp-type')
             product_id = request.POST.get('product_id')
             product_title = request.POST.get('product_title')
             has_serial_keys = request.POST.get('checkkeys') == 'on'
             has_file = request.POST.get('dp-type') == 'file'
             has_url=request.POST.get('dp-type') == 'url'
-            product_sku = request.POST.get('variantsku')
-            print(type(product_sku))
-            variant_name = request.POST.get('variantname')
+            variants = request.POST.get('variants')
+            variants = json.loads(variants)
+            print(variants)
+            #print(type(variants))
+            #product_sku = request.POST.get('variantsku')
+            #print(type(product_sku))
+            #variant_name = request.POST.get('variantname')
             variant_file = request.FILES.get('dp-file')
             variant_has_serial_keys = request.POST.get('licensekeys') == 'Generatenewlicense'
-            print(variant_has_serial_keys)
+            #print(variant_has_serial_keys)
             serial_keys = request.POST.get('generatedkeys')
             url=request.POST.get('external-URL')
-            print(url)
+            #print(url)
             # Validate form data
             if not all([dp_type, product_id, product_title, product_sku]):
                 raise ValidationError('Missing required fields')

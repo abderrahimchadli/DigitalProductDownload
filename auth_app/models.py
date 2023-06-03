@@ -30,17 +30,15 @@ class DigitalProduct(models.Model):
     product_id= models.TextField()
     product_title=models.TextField()
     userid=models.ForeignKey(AuthAppShopUser ,on_delete=models.CASCADE)
-    has_serial_keys = models.BooleanField(default=False)
     has_file=models.BooleanField(default=False)
     has_url=models.BooleanField(default=False)
     isall=models.BooleanField(default=True)
     
-    productSKU=models.TextField()
-
 class Variant(models.Model):
     product = models.ForeignKey(DigitalProduct, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
     file = models.FileField(upload_to='digital_product_files/')
+    sku = models.TextField()
     has_serial_keys = models.BooleanField(default=False)
     
 class SerialKey(models.Model):
