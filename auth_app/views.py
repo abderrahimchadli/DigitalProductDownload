@@ -195,6 +195,7 @@ def dp_form_submit(request):
             file_name=request.POST.get('filename')
             url_file_name=request.POST.get('urlfilename')
             usage_limit=request.POST.get('usage-limit')
+            description=request.POST.get('additional-note')
             # Validate form data
             if not all([dp_type, product_id, product_title,file_type,variants]):
                 raise ValidationError('Missing required fields')
@@ -283,7 +284,9 @@ def dp_form_submit(request):
                         SerialKey.objects.create(file=created_file, key=key,usage_limit=usage_limit)
             
             
-            
+            if description:
+                File.objects.update(additional_note=description)
+                
             response_data = {'success': True}
     except Exception as e:
         response_data = {'success': False, 'message': str(e)}

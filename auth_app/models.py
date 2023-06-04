@@ -38,6 +38,7 @@ class File(models.Model):
     size=models.FloatField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     last_update=models.DateTimeField(auto_now_add=True)
+    additional_note=models.TextField(default=None,null=True)
 
 class VariantFile(models.Model):
     variant = models.ForeignKey(Variant,on_delete=models.CASCADE)
