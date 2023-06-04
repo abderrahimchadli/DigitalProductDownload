@@ -19,48 +19,44 @@ class Plan(models.Model):
     price=models.FloatField()
     trial_days=models.IntegerField()
     
-class Customer(models.Model):
-    name = models.CharField(max_length=100)
-    useri=models.ForeignKey(AuthAppShopUser ,on_delete=models.CASCADE)
-    email = models.CharField(max_length=255)
-    country = models.CharField(max_length=255)
-  
-
 class DigitalProduct(models.Model):
-    product_id= models.TextField()
-    product_title=models.TextField()
-    userid=models.ForeignKey(AuthAppShopUser ,on_delete=models.CASCADE)
-    has_file=models.BooleanField(default=False)
-    has_url=models.BooleanField(default=False)
-    isall=models.BooleanField(default=True)
+    shopify_id= models.IntegerField(unique=True)
+    title=models.TextField()
+    user=models.ForeignKey(AuthAppShopUser ,on_delete=models.CASCADE)
     
 class Variant(models.Model):
-    product = models.ForeignKey(DigitalProduct, on_delete=models.CASCADE)
+    shopify_id = models.IntegerField(unique=True)
     name = models.CharField(max_length=255)
-    file = models.FileField(upload_to='digital_product_files/')
-    sku = models.TextField()
-    has_serial_keys = models.BooleanField(default=False)
+    sku = models.CharField(max_length=255)
+    product = models.ForeignKey(DigitalProduct, on_delete=models.CASCADE)
+
     
-class SerialKey(models.Model):
-    variant = models.ForeignKey(Variant, on_delete=models.CASCADE)
-    key = models.CharField(max_length=255)
-    is_used = models.BooleanField(default=False)
-    
-class DownloadLink(models.Model):
-    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
-    variant = models.ForeignKey(Variant, on_delete=models.CASCADE)
-    serial_key = models.ForeignKey(SerialKey, on_delete=models.CASCADE, null=True)
-    is_valid = models.BooleanField(default=True)
-    size=models.IntegerField()
+class File(models.Model):
+    name=models.TextField(default=None,null=True)
+    url=models.TextField(default=None,null=True)
+    type=models.CharField(max_length=20, choices=(('FILE', 'file'),('URL', 'url'),('NONE', 'none'),))
+    size=models.FloatField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     last_update=models.DateTimeField(auto_now_add=True)
+
+class VariantFile(models.Model):
+    variant = models.ForeignKey(Variant,on_delete=models.CASCADE)
+    file = models.ForeignKey(File,on_delete=models.CASCADE)
+
+
+
+class SerialKey(models.Model):
+    key = models.CharField(max_length=255)
+    usage_limit = models.IntegerField(default=0)
+    usage_count = models.IntegerField(default=0)
+    file = models.ForeignKey(File,on_delete=models.CASCADE)
+
 
 class Order(models.Model):
     order_id=models.TextField()
     order_name=models.TextField()
     product=models.ForeignKey(DigitalProduct, on_delete=models.CASCADE)
     variant=models.ForeignKey(Variant, on_delete=models.CASCADE)
-    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
     quantity=models.TextField()
 
 class OrderKeys(models.Model):

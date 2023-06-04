@@ -283,196 +283,144 @@
                                                             </div>
                                                         <div class="modal-body">
 
-                                                            <form id="SaveDP" >
-                                                                <input type="hidden" class="form-control" id="product_id" value="" name="product_id" >
-                                                                <input type="hidden" class="form-control" id="product_title" value="" name="product_title" >
-
-                                                            
+                                                        <form id="SaveDP" >
+                                                            <input type="hidden" class="form-control" id="product_id" value="" name="product_id" >
+                                                            <input type="hidden" class="form-control" id="product_title" value="" name="product_title" >
+                                                            <h6>Basic Select with Input Group</h6>
+                                                            <div class="row">
+                                                              <div class="col-10">
+                                                                <div class="form-group">
+                                                                  <label for="variant">Select variant</label>
+                                                                  <select class="variants choices form-select" name="variant" id="variants" multiple="multiple"></select>
+                                                                </div>
+                                                              </div>
+                                                              <div class="col-2"> Select all <div class="form-check form-switch">
+                                                                  <input class="form-check-input" name="select_all_variants" type="checkbox" id="flexSwitchCheckChecked2">
+                                                                  <label class="form-check-label" for="flexSwitchCheckChecked2"></label>
+                                                                </div>
+                                                              </div>
+                                                            </div>
+                                                            <div class="row">
+                                                              <div class="col-12">
                                                                 <h6>Basic Select with Input Group</h6>
-                                                            <div class="row">
-                                                                <div class="col-10">
+                                                                <div class="row">
+                                                                  <div class="col-sm-3 mb-1">
+                                                                    <div class="input-group input-group-sm mb-3">
+                                                                      <div class="form-check">
+                                                                        <label class="form-check-label">
+                                                                          <input class="form-check-input" type="radio" name="dp-type" value="file"> Upload New File </label>
+                                                                      </div>
+                                                                    </div>
+                                                                  </div>
+                                                                  <div class="col-sm-3 mb-1">
+                                                                    <div class="input-group mb-3">
+                                                                      <div class="form-check">
+                                                                        <label class="form-check-label">
+                                                                          <input class="form-check-input" type="radio" name="dp-type" value="url"> Add from URL </label>
+                                                                      </div>
+                                                                    </div>
+                                                                  </div>
+                                                                  <div class="col-sm-3 mb-1">
+                                                                    <div class="input-group input-group-lg">
+                                                                      <div class="form-check">
+                                                                        <label class="form-check-label">
+                                                                          <input class="form-check-input" type="radio" name="dp-type" value="none" /> No File (only sell license keys) </label>
+                                                                      </div>
+                                                                    </div>
+                                                                  </div>
+                                                                </div>
+                                                                <div class="row dp-type-container">
+                                                                  <div class="col-12 dp-type-col dp-file">
                                                                     <div class="form-group">
-                                                                        <label for="variant">Select variant</label>
-                                                                        <select class="variants choices form-select" name="variant" id="variants" multiple="multiple">
-                                                                        </select>                  
+                                                                      <label for="first-name-vertical">File Name :</label>
+                                                                      <input type="text" id="first-name-vertical" class="form-control" name="filename" placeholder="File Name">
                                                                     </div>
-                                                                </div>
-                                                                <div class="col-2">
-
-                                                                    Select all
-                                                                    <div class="form-check form-switch">
-                                                                        <input class="form-check-input" name="select_all_variants" type="checkbox" id="flexSwitchCheckChecked2">
-                                                                        <label class="form-check-label" for="flexSwitchCheckChecked2"></label>
+                                                                    <div class="file-upload-wrapper">
+                                                                      <div>
+                                                                        <label for="formFileLg" class="form-label">Upload Files</label>
+                                                                        <input class="form-control form-control-lg" id="formFileLg" name="dp-file" type="file">
+                                                                      </div>
                                                                     </div>
+                                                                  </div>
+                                                                  <div class="col-12 dp-type-col dp-url">
+                                                                    <div class="form-body">
+                                                                      <div class="row">
+                                                                        <div class="col-12">
+                                                                          <div class="alert alert-info alert-dismissible show fade sm"> If you have uploaded a file to a location such as (Google Drive , Dropbox ...,) Enter the URL of the file you want your customers to be able to Download when they purchase products from your store. <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                                                          </div>
+                                                                          <div class="form-group">
+                                                                            <label for="first-name-vertical">File Name :</label>
+                                                                            <input type="text" id="first-name-vertical" class="form-control" name="urlfilename" placeholder="File Name">
+                                                                          </div>
+                                                                        </div>
+                                                                        <div class="col-12">
+                                                                          <div class="form-group">
+                                                                            <label for="email-id-vertical">File URL :</label>
+                                                                            <input type="url" id="email-id-vertical" class="form-control" name="external-URL" placeholder="Enter the URL for your externally hosted file">
+                                                                          </div>
+                                                                        </div>
+                                                                      </div>
+                                                                    </div>
+                                                                  </div>
+                                                                  <div class="col-12 dp-type-col dp-none"></div>
                                                                 </div>
+                                                                <div class="row">
+                                                                  <div class="col-12">
+                                                                    <div class="row">
+                                                                      <div class="card">
+                                                                        <div class="card-body">
+                                                                          <p> Do You Want To Sell Using License Keys ?</p>
+                                                                          <div class="form-check form-switch">
+                                                                            <input class="form-check-input" name="checkkeys" type="checkbox" id="flexSwitchCheckChecked1">
+                                                                            <label class="form-check-label" for="flexSwitchCheckChecked1"></label>
+                                                                          </div>
+                                                                        </div>
+                                                                      </div>
+                                                                    </div>
+                                                                    <div class="row dp-keys-container d-none">
+                                                                      
+                                                                      <div class="col-5 d-inline-flex">
+                                                                        <div class="form-group">
+                                                                          <label for="licensekeys">Select: </label>
+                                                                          <select class="licensekeys choices form-select" name="licensekeys" id="licensekeys">
+                                                                            <option value="Usemyownlicense" >Use my own license Keys</option>
+                                                                            <option value="Generatenewlicense" >Generate random license Keys </option>
+                                                                          </select>
+                                                                        </div>
+                                                                      </div>
+                                                                      
+                                                                      <div class="col-5 d-inline-flex">
+                                                                        <div class="form-group">
+                                                                          <label for="usage-limit" >Usage limit</label>
+                                                                          <input type="number" min="0" class="form-control" name="usage-limit" placeholder="Usage limit" value="1" title="0 for unlimited usage">
+                                                                        </div>
+                                                                      </div>
 
-
-                                                            
-                                                            
-
+                                                                    </div>
+                                                                  </div>
+                                                                  <div class="row">
+                                                                    <div class="form-group" id="keysgenerator" name="keysgenerator">
+                                                                      
+                                                                    </div>
+                                                                  </div>
+                                                                </div>
+                                                              </div>
                                                             </div>
-                                                            <div class="row">
-                                                                
-                                                            </div>
-                                                            
-
-
-                                                            
-                            
-
-
-
-
-                
-                                                            <div class="col-12">
-                                                                            
-                                                                                <h6>Basic Select with Input Group</h6>
-
-                                                                                <div class="row">
-                                                                                    <div class="col-sm-3 mb-1">
-                                                                                        <div class="input-group input-group-sm mb-3">
-                                                                                            <div class="form-check">
-                                                                                                <label class="form-check-label" >
-                                                                                                    <input class="form-check-input" type="radio" name="dp-type" value="file" >
-                                                                                                    Upload New File
-                                                                                                </label>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div class="col-sm-3 mb-1">
-                                                                                        <div class="input-group mb-3">
-                                                                                            <div class="form-check">
-                                                                                                <label class="form-check-label">
-                                                                                                    <input class="form-check-input" type="radio" name="dp-type"  value="url">
-                                                                                                     Add from URL
-                                                                                                </label>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div class="col-sm-3 mb-1">
-                                                                                        <div class="input-group input-group-lg">
-                                                                                            <div class="form-check">
-                                                                                                <label class="form-check-label" >
-                                                                                                    <input class="form-check-input" type="radio" name="dp-type" value="none"/>
-                                                                                                    No File (only sell license keys)
-                                                                                                </label>
-                                                                                            </div>
-                                                                                            </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div class="row dp-type-container">
-                                                                                    <div class="col-12 dp-type-col dp-file">
-                                                                                        <div class="file-upload-wrapper">
-                                                                                            <div>
-                                                                                                <label for="formFileLg" class="form-label">Upload Files</label>
-                                                                                                <input class="form-control form-control-lg" id="formFileLg" name="dp-file" type="file">
-                                                                                            </div> 
-                                                                                        </div>
-                                                                                    </div>
-
-
-
-
-
-
-
-                                                                                    <div class="col-9 dp-type-col dp-url">
-                                                                                        
-                                                                                        
-                                                                                            <div class="form-body">
-                                                                                                <div class="row">
-                                                                                                    <div class="col-12">
-                                                                                                        <div class="alert alert-info alert-dismissible show fade sm" >
-                                                                                                            If you have uploaded a file to a location such as (Google Drive , Dropbox  ...,) Enter the URL of the file you want your customers to be able to Download when they purchase products from your store.
-                                                                                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                                                                                                        </div>   
-                                                                                                        <div class="form-group">
-                                                                                                            <label for="first-name-vertical">File Name :</label>
-                                                                                                            <input type="text" id="first-name-vertical" class="form-control"
-                                                                                                                name="filename" placeholder="File Name">
-                                                                                                        </div>
-                                                                                                    </div>
-                                                                                                    <div class="col-12">
-                                                                                                        <div class="form-group">
-                                                                                                            <label for="email-id-vertical">File URL :</label>
-                                                                                                            <input type="url" id="email-id-vertical" class="form-control"
-                                                                                                                name="external-URL" placeholder="Enter the URL for your externally hosted file">
-                                                                                                        </div>
-                                                                                                    </div>
-
-                                                                                                </div>
-                                                                                            </div>
-                                                                                    </div>
-
-
-
-
-                                                                                    <div class="col-12 dp-type-col dp-none">
-                                                                                        
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div class="row ">
-                                                                                    <div class="row">
-                                                                                        <div class="col-12">
-                                                                                            <div class="card">
-
-                                                                                                <div class="card-body">
-                                                                                                    <p>  Do You Want To Sell Using License Keys ? 
-                                                                                                    <div class="form-check form-switch">
-                                                                                                        <input class="form-check-input" name="checkkeys" type="checkbox" id="flexSwitchCheckChecked1"    >
-                                                                                                        <label class="form-check-label" for="flexSwitchCheckChecked1"></label>
-                                                                                                    </div>
-                                                                                                </div>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-
-                                                                                    <div class="row dp-keys-container d-none">
-                                                                                        <div class="form-group" >
-                                                                                            <label for="licensekeys" name="licensekeys">You can Select : Random or Specific Keys </label>
-                                                                                            <select class="licensekeys choices form-select" name="licensekeys" id="licensekeys" >
-                                                                                                <option value="Usemyownlicense" name="licensekeys">Use my own license Keys  (from the "License Keys" tab of the app)</option>
-                                                                                                <option value="Generatenewlicense" name="licensekeys" >Generate new random license Keys </option>
-
-                                                                                            </select>                  
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div class="row">
-                                                                                        <div class="form-group" id="keysgenerator"  name="keysgenerator" ></div>
-                                                                                    </div>
-
-                                                                                </div>
-                                                                                
-
-                                                                            
-                                                            </div>
-
                                                             <div class="form-group mb-3">
-                                                                <label for="additional-note" name="additional-note" class="form-label"> Write a Short Description That Will Appear Next to the download button on  download page  (Optional) </label>
-                                                                <textarea class="form-control" id="additional-note" name="additional-note" rows="6" style="height: 100px; width:800px"></textarea>
+                                                              <label for="additional-note" name="additional-note" class="form-label"> Write a Short Description That Will Appear Next to the download button on download page (Optional) </label>
+                                                              <textarea class="form-control" id="additional-note" name="additional-note" rows="6" style="height: 100px; width:800px"></textarea>
                                                             </div>
-
-
-
-
-
-
-
-                                                            
-                                                        
-
-
-                                                    </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn" data-bs-dismiss="modal">
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                              <button type="button" class="btn" data-bs-dismiss="modal">
                                                                 <i class="bx bx-x d-block d-sm-none"></i>
                                                                 <span class="d-none d-sm-block">Close</span>
-                                                            </button>
-                                                            <button type="submit" id="btnsubmit" class="btn btn-primary ml-1" >
+                                                              </button>
+                                                              <button type="submit" id="btnsubmit" class="btn btn-primary ml-1">
                                                                 <i class="bx bx-check d-block d-sm-none"></i>
                                                                 <span class="d-none d-sm-block">Accept</span>
-                                                            </button>
-                                                        </div>
+                                                              </button>
+                                                            </div>
                                                         </form>
                                                     </div>
                                                 
@@ -766,6 +714,7 @@ $.ajaxSetup({
                 if(selected_key_type == 'Generatenewlicense')
                 {
                     $('#keysgenerator').html(`
+                    
                     <div class="col-sm-4">
                         <h6>Key count:- for example : 10
                         </h6>

@@ -5,7 +5,7 @@ from django.shortcuts import redirect
 from .models import Plan
 # Create your views here.
 from django.core import serializers
-from .models import Billing ,Plan,Customer,DigitalProduct,Variant,SerialKey,DownloadLink,Order,OrderKeys
+from .models import Billing ,Plan,DigitalProduct,Variant,Order,OrderKeys,SerialKey,File,VariantFile
 from django.conf import settings
 from django.contrib.auth import logout
 from django.http import HttpResponse,JsonResponse
@@ -39,6 +39,7 @@ def home(request, *args, **kwargs):
             request.session.flush()
             return redirect(f"/?shop={shop}")
     checkbilling = check_user_billing(request)
+    print(checkbilling)
     if checkbilling == True:
         return render(request, "home.html")
     if checkbilling == -1:
@@ -142,23 +143,23 @@ def getproduct(request, *args, **kwargs):
             
             jsproducts.append(product.to_dict())
         
-    print(jsproducts)        
+    #print(jsproducts)        
     rsp_obj = {'products': jsproducts}
 
     return JsonResponse({"status":True,"msg":"",'data':rsp_obj})
 
-def getproduct(request, *args, **kwargs):
-    jsproducts=[]
-    with request.user.session:
-        products = shopify.Product.find()
-        for product in products:
-            
-            jsproducts.append(product.to_dict())
-        
-    print(jsproducts)        
-    rsp_obj = {'products': jsproducts}
-
-    return JsonResponse({"status":True,"msg":"",'data':rsp_obj})
+#def getproduct(request, *args, **kwargs):
+#    jsproducts=[]
+#    with request.user.session:
+#        products = shopify.Product.find()
+#        for product in products:
+#            
+#            jsproducts.append(product.to_dict())
+#        
+#    #print(jsproducts)        
+#    rsp_obj = {'products': jsproducts}
+#
+#    return JsonResponse({"status":True,"msg":"",'data':rsp_obj})
 
 
         
@@ -178,90 +179,78 @@ def dp_form_submit(request):
     try:
         with transaction.atomic():
             # Extract form data
-            #print(request.POST)
+            
             dp_type = request.POST.get('dp-type')
             product_id = request.POST.get('product_id')
             product_title = request.POST.get('product_title')
             has_serial_keys = request.POST.get('checkkeys') == 'on'
-            has_file = request.POST.get('dp-type') == 'file'
-            has_url=request.POST.get('dp-type') == 'url'
-            variants = request.POST.get('variants')
-            variants = json.loads(variants)
-            print(variants)
-            #print(type(variants))
-            #product_sku = request.POST.get('variantsku')
-            #print(type(product_sku))
-            #variant_name = request.POST.get('variantname')
-            variant_file = request.FILES.get('dp-file')
-            variant_has_serial_keys = request.POST.get('licensekeys') == 'Generatenewlicense'
-            #print(variant_has_serial_keys)
-            serial_keys = request.POST.get('generatedkeys')
+            file_type = request.POST.get('dp-type') #'file'/'url'
+            variants = json.loads(request.POST.get('variants'))
+            file = request.FILES.get('dp-file')
             url=request.POST.get('external-URL')
-            #print(url)
+            variant_has_serial_keys = request.POST.get('licensekeys') == 'Generatenewlicense' ##
+            serial_keys = request.POST.get('generatedkeys')
+            manual_keys=request.POST.get('manualkeys')
+            print(manual_keys)
+            file_name=request.POST.get('filename')
+            url_file_name=request.POST.get('urlfilename')
+            usage_limit=request.POST.get('usage-limit')
             # Validate form data
-            if not all([dp_type, product_id, product_title, product_sku]):
+            if not all([dp_type, product_id, product_title,file_type,variants]):
                 raise ValidationError('Missing required fields')
-            if has_serial_keys and not serial_keys:
-                raise ValidationError('Serial keys are required for variants with serial keys')
-                        # Check file size
-            if variant_file and variant_file.size > 50 * 1024 * 1024:  # 50 MB
-                return JsonResponse({'success': False, 'message': 'File size is too large. Maximum file size is 50 MB.'})
-            if has_url and not url:
-                    return JsonResponse({'success': False, 'message': 'URL is required for variants with URL '})
-
-
-                
-            print(has_serial_keys)
-            # Create digital product
             
-            digital_product = DigitalProduct.objects.create(
-                product_id=product_id,
-                product_title=product_title,
-                has_serial_keys=has_serial_keys,
-                has_url=has_url,
-                has_file=has_file,
-                productSKU=product_sku,
-                userid=request.user,
+            if dp_type == 'file' and not file:
+                raise ValidationError('File not selected.')
+                
+            if has_serial_keys and not (serial_keys or manual_keys):
+                raise ValidationError('Serial keys are required for variants with serial keys')
+            
+            # Check file size
+            if file and file.size > 50 * 1024 * 1024:  # 50 MB
+                return JsonResponse({'success': False, 'message': 'File size is too large. Maximum file size is 50 MB.'})
+            
+            if file_type == 'url' and not url:
+                return JsonResponse({'success': False, 'message': 'URL is required for variants with URL '})
+
+            
+            if not serial_keys:
+                serial_keys=manual_keys
+                
+
+            # Create digital product
+            digital_product, created = DigitalProduct.objects.update_or_create(
+                shopify_id=product_id,
+                defaults={'title': product_title, 'user':request.user}
             )
             
-            if has_url:
-                    variant = Variant.objects.create(
-                    product=digital_product,
-                    name=variant_name,
-                    file=url,
-                    
-                    
-                    has_serial_keys=variant_has_serial_keys,
+
+            assigned_variants = []
+            for v in variants:
+                print(v)
+                variant, created = Variant.objects.update_or_create(
+                    shopify_id=v['id'],
+                    defaults={'name':v['title'],'sku':v['sku'],'product':digital_product}
                 )
+                assigned_variants.append(variant)
+            
+            link_url = ''
+            filesize = 0
+            digital_filename = ''
+            
+            if file_type == 'url':
+                link_url = url
+                filesize = 0
+                digital_filename = url_file_name
                 
-            # Save variant file to server
-            if variant_file:
-                #filename = os.path.join(settings.MEDIA_ROOT, variant_file.name)
-                #with open(filename, 'wb+') as f:
-                #    for chunk in variant_file.chunks():
-                #        f.write(chunk)
+            elif file_type == 'file':
                 fs = FileSystemStorage(location='digital_product_files')
-                filename = fs.save(variant_file.name, variant_file)
-                variant_file_path = fs.url(filename)
-                digital_product.file_url = variant_file_path
-                saved_file =digital_product.save()
-
-                #file_path = os.path.join(settings.MEDIA_ROOT, filename)
-
+                filename = fs.save(file.name, file)
                 file_path = os.path.abspath(os.path.join('digital_product_files/', filename))
-
-                print(file_path)
                 
-
-                # Set the path to your service account key JSON file    
-                credentials_path = 'K:\PROJECTS\DigitalProductDownload\my-project-key.json'
-
-                # Initialize the client
-                client = storage.Client.from_service_account_json(credentials_path)
-
+                extension=os.path.splitext(file_path)[-1]
                 storage_client = storage.Client.from_service_account_json('K:\PROJECTS\DigitalProductDownload\my-project-key.json')
                 bucket_name = 'bucketfilename'
-                blob_name = f'variants/{filename}'
+                blob_name = f'variants/File_{file_name}_{request.user.myshopify_domain}_{product_id}{extension}'
                 bucket = storage_client.bucket(bucket_name)
                 if not bucket.exists():
                     bucket.create()
@@ -269,37 +258,32 @@ def dp_form_submit(request):
                 blob = bucket.blob(blob_name)
                 with open(file_path, 'rb') as file:
                     blob.upload_from_file(file)
-                
-                digital_product.file_url = blob.public_url
-                digital_product.save()
+                    
+
                 blob.make_public()
-                print(digital_product.file_url)
-                variant_file=digital_product.file_url
+                print(blob.size)
+                filesize = blob.size
+                link_url = blob.public_url
+                digital_filename = file_name + extension
+                
+                os.remove(file_path)
 
-                variant = Variant.objects.create(
-                    product=digital_product,
-                    name=variant_name,
-                    file=variant_file,
-                    
-                    
-                    has_serial_keys=variant_has_serial_keys,
-                )
+            
+            created_file = File.objects.create(name=digital_filename,url=link_url,type=file_type,size=filesize)
 
-
-            # Create variant if specified
-            if variant_name:
-                print(variant_has_serial_keys)
-                print(serial_keys)
-                # Add serial keys if specified
-                if variant_has_serial_keys and serial_keys:
-                    
-                    keys = serial_keys.split('\n')
-                    print(keys)
-                    for key in keys:
-                        key = key.strip()  # Remove leading/trailing whitespace
-                        if key:
-                            SerialKey.objects.create(variant=variant, key=key)
-                            
+            
+            for variant in assigned_variants:
+                VariantFile.objects.create(variant=variant,file=created_file)
+            
+            if variant_has_serial_keys and serial_keys:    
+                keys = serial_keys.split('\n')
+                for key in keys:
+                    key = key.strip()  # Remove leading/trailing whitespace
+                    if key:
+                        SerialKey.objects.create(file=created_file, key=key,usage_limit=usage_limit)
+            
+            
+            
             response_data = {'success': True}
     except Exception as e:
         response_data = {'success': False, 'message': str(e)}
