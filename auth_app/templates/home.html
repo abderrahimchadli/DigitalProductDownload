@@ -456,17 +456,7 @@
           </div>
       </div>
 
-      <div class="col-md-6 mb-4">
-        <h6>Basic Multiple choices</h6>
-        </p>
-        <div class="form-group">
-            <select class="choices my-choices form-select" multiple="multiple">
-                <option value='abc'>abc</option>
-                <option value='abcf'>abcf</option>
-                <option value='abcg'>abcg</option>
-            </select>
-        </div>
-    </div>
+      
 
       <script src="{% static 'assets/js/bootstrap.js'%}"></script>
       <script src="{% static 'assets/js/app.js'%}"></script>
@@ -577,6 +567,7 @@ $.ajaxSetup({
 
             $.each(pInfos.variants, function(i, v) {
                 
+
                 var obj = {
                     "id": v.id,
                     "sku": v.sku,
@@ -589,6 +580,7 @@ $.ajaxSetup({
                     value: value, 
                     label: `Title:${v.title} - SKU:${v.sku}`, 
                     id: i+1, 
+                    disabled: false,
                     selected: false
                 });
                 /*

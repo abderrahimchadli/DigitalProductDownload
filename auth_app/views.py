@@ -270,8 +270,9 @@ def dp_form_submit(request):
                 os.remove(file_path)
 
             
-            created_file = File.objects.create(name=digital_filename,url=link_url,type=file_type,size=filesize)
+            created_file = File.objects.create(name=digital_filename,url=link_url,type=file_type,size=filesize,additional_note=description)
 
+            
             
             for variant in assigned_variants:
                 VariantFile.objects.create(variant=variant,file=created_file)
@@ -283,9 +284,6 @@ def dp_form_submit(request):
                     if key:
                         SerialKey.objects.create(file=created_file, key=key,usage_limit=usage_limit)
             
-            
-            if description:
-                File.objects.update(additional_note=description)
                 
             response_data = {'success': True}
     except Exception as e:
