@@ -19,16 +19,20 @@ class Plan(models.Model):
     price=models.FloatField()
     trial_days=models.IntegerField()
     
+    
+    
 class DigitalProduct(models.Model):
-    shopify_id= models.IntegerField(unique=True)
+    shopify_id= models.IntegerField()
     title=models.TextField()
+    image=models.TextField()
     user=models.ForeignKey(AuthAppShopUser ,on_delete=models.CASCADE)
+    
     
 class Variant(models.Model):
     shopify_id = models.IntegerField(unique=True)
     name = models.CharField(max_length=255)
     sku = models.CharField(max_length=255)
-    product = models.ForeignKey(DigitalProduct, on_delete=models.CASCADE)
+    digital_product = models.ForeignKey(DigitalProduct, on_delete=models.CASCADE)
 
     
 class File(models.Model):
@@ -37,22 +41,22 @@ class File(models.Model):
     type=models.CharField(max_length=20, choices=(('FILE', 'file'),('URL', 'url'),('NONE', 'none'),))
     size=models.FloatField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
-    last_update=models.DateTimeField(auto_now_add=True)
+    updated_at=models.DateTimeField(auto_now_add=True)
     additional_note=models.TextField(default=None,null=True)
 
-class VariantFile(models.Model):
-    variant = models.ForeignKey(Variant,on_delete=models.CASCADE)
-    file = models.ForeignKey(File,on_delete=models.CASCADE)
 
+class DigitalProductFile(models.Model):
+    digital_product = models.ForeignKey(DigitalProduct,on_delete=models.CASCADE)
+    file = models.ForeignKey(File,on_delete=models.CASCADE)
 
 
 class SerialKey(models.Model):
     key = models.CharField(max_length=255)
     usage_limit = models.IntegerField(default=0)
     usage_count = models.IntegerField(default=0)
-    file = models.ForeignKey(File,on_delete=models.CASCADE)
+    digital_product = models.ForeignKey(DigitalProduct, on_delete=models.CASCADE)
 
-
+"""
 class Order(models.Model):
     order_id=models.TextField()
     order_name=models.TextField()
@@ -63,4 +67,4 @@ class Order(models.Model):
 class OrderKeys(models.Model):
     order=models.ForeignKey(Order, on_delete=models.CASCADE ,null=True)
     serial_key = models.ForeignKey(SerialKey, on_delete=models.CASCADE, null=True)
-
+"""

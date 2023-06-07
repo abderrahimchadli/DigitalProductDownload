@@ -5,7 +5,7 @@ from django.shortcuts import redirect
 from .models import Plan
 # Create your views here.
 from django.core import serializers
-from .models import Billing ,Plan,DigitalProduct,Variant,Order,OrderKeys,SerialKey,File,VariantFile
+from .models import Billing ,Plan,DigitalProduct,Variant,SerialKey,File
 from django.conf import settings
 from django.contrib.auth import logout
 from django.http import HttpResponse,JsonResponse
@@ -134,19 +134,42 @@ def error_404_view(request, exception):
 def logoutview(request):
     logout(request)
     return redirect(home)
-
+#new app working ---- send data to frontend
 def getproduct(request, *args, **kwargs):
+    
+
+
     jsproducts=[]
     with request.user.session:
         products = shopify.Product.find()
         for product in products:
             
             jsproducts.append(product.to_dict())
+    
         
     #print(jsproducts)        
     rsp_obj = {'products': jsproducts}
 
     return JsonResponse({"status":True,"msg":"",'data':rsp_obj})
+
+def getfiles(request,*args,**kwargs):
+
+    files = File.objects.all()
+    file_data = []
+    for file in files:
+        file_data.append({
+            'id': file.id,
+            'name': file.name,
+            'url': file.url,
+            'type': file.type,
+            'size': file.size,
+            'created_at': file.created_at,
+            'updated_at': file.updated_at,
+            'additional_note': file.additional_note,
+        })
+    response = {'files':file_data}
+
+    return JsonResponse({"status":True,"msg":"",'data':response})
 
 #def getproduct(request, *args, **kwargs):
 #    jsproducts=[]
@@ -162,7 +185,14 @@ def getproduct(request, *args, **kwargs):
 #    return JsonResponse({"status":True,"msg":"",'data':rsp_obj})
 
 
-        
+
+
+
+
+
+
+
+
 
 
 
@@ -172,6 +202,77 @@ from django.views.decorators.http import require_POST
 from django.core.files.storage import FileSystemStorage
 
 from google.cloud import storage
+
+@login_required
+@require_POST
+#upload file to database
+def save_file(request):
+    if request.method == 'POST':
+        
+        if 'filename' not in request.POST:
+            return JsonResponse({'success': False, 'message': 'File name is required'})
+        
+        if  'file' not in request.FILES and 'url' not in request.POST:
+            return JsonResponse({'success': False, 'message': 'a file or url is required '})
+        
+        
+        
+        link_url = ""
+        filesize = 0
+        filename = request.POST.get('filename')
+        
+        if request.POST.get('url'):
+            link_url = request.POST.get('url')
+        
+        
+
+        if 'file' in request.FILES:
+            if request.FILES['file'].size > 50 * 1024 * 1024:
+                return JsonResponse({'success': False, 'message': 'File size is too large. Maximum file size is 50 MB.'})
+            
+            file = request.FILES['file']
+            
+            fs = FileSystemStorage(location='digital_product_files')
+            file_name = fs.save(file.name, file)
+            file_path = os.path.abspath(os.path.join('digital_product_files/', file_name))
+            
+            extension=os.path.splitext(file_path)[-1]
+            storage_client = storage.Client.from_service_account_json('K:\PROJECTS\DigitalProductDownload\my-project-key.json')
+            bucket_name = 'bucketfilename'
+            blob_name = f'variants/File_{filename}_{request.user.myshopify_domain}{extension}'
+            bucket = storage_client.bucket(bucket_name)
+            if not bucket.exists():
+                bucket.create()
+                
+            blob = bucket.blob(blob_name)
+            with open(file_path, 'rb') as file:
+                blob.upload_from_file(file)
+                
+            blob.make_public()
+            print(blob.size)
+            filesize = blob.size
+            link_url = blob.public_url
+            filename = filename + extension
+            os.remove(file_path)
+
+            
+        created_file = File.objects.create(name=filename,url=link_url,size=filesize)            
+
+
+        
+        return JsonResponse({'message': 'File saved successfully.'}) if created_file else JsonResponse({'message': 'Error saving file.'})
+    else:
+        return JsonResponse({'error': 'Invalid request.'})
+
+
+
+
+
+
+
+
+
+
 
 @login_required
 @require_POST
@@ -274,8 +375,8 @@ def dp_form_submit(request):
 
             
             
-            for variant in assigned_variants:
-                VariantFile.objects.create(variant=variant,file=created_file)
+            #for variant in assigned_variants:
+                #VariantFile.objects.create(variant=variant,file=created_file)
             
             if variant_has_serial_keys and serial_keys:    
                 keys = serial_keys.split('\n')

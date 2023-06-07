@@ -8,9 +8,13 @@ urlpatterns = [
   path('', views.home, name='post_list'),
   path('license-key/', views.license_key, name='license_key'),
 
-  path("search-product/", views.getproduct),
+  path("get-product/", views.getproduct),
+  path("get-files/", views.getfiles),
+
   #dp =digital product
   path('dipr-form-submit/', views.dp_form_submit, name='dp_form_submit'),
+  
+  path('save-file/', views.save_file, name='save_file'),
 
      #jason response
     #path("activate/",views.activate_billing),

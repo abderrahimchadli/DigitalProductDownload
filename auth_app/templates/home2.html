@@ -1,0 +1,847 @@
+{% extends "base.html" %} {% block content %} {% load static %} <head>
+  <html lang="en">
+
+  <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Layout Horizontal - Mazer Admin Dashboard</title>
+      
+
+  <link rel="stylesheet" href="{% static 'assets/css/shared/iconly.css'%}">
+  <link rel="stylesheet" href="{% static 'assets/css/pages/fontawesome.css'%}">
+  <link rel="stylesheet" href="{% static 'assets/extensions/datatables.net-bs5/css/dataTables.bootstrap5.min.css'%}">
+  <link rel="stylesheet" href="{% static 'assets/css/pages/datatables.css'%}">
+  </head>
+  
+  <body>
+      <div id="app">
+          <div id="main" class="layout-horizontal">
+              <header class="mb-5">
+
+                  <nav class="main-navbar">
+                      <div class="container">
+                          <ul>
+                              
+                              
+                              
+                              <li
+                                  class="menu-item  ">
+                                  <a href="index.html" class='menu-link'>
+                                      <i class="bi bi-house-fill"></i>
+                                      <span>Home</span>
+                                  </a>
+                              </li>
+                              
+                              
+                              
+                              <li
+                                  class="menu-item  ">
+                                  <a href="/license-key" class='menu-link'>
+                                      <i class="bi bi-key-fill"></i>
+                                      <span>License Keys</span>
+                                  </a>
+                              </li>
+                              
+                              
+                              
+                              <li
+                                  class="menu-item  ">
+                                  <a href="index.html" class='menu-link'>
+                                      <i class="bi bi-box-fill"></i>
+                                      <span>Orders</span>
+                                  </a>
+                              </li>
+                              
+                              
+                              
+                              <li
+                                  class="menu-item  ">
+                                  <a href="index.html" class='menu-link'>
+                                      <i class="bi bi-envelope-paper-fill"></i>
+                                      <span>Email Template</span>
+                                  </a>
+                              </li>
+                              
+                              
+                              
+                              <li
+                                  class="menu-item  ">
+                                  <a href="index.html" class='menu-link'>
+                                      <i class="bi bi-patch-check-fill"></i>
+                                      <span>Upgrade</span>
+                                  </a>
+                              </li>
+
+                              <li
+                                  class="menu-item  ">
+                                  <a href="index.html" class='menu-link'>
+                                      <i class="bi bi-sliders"></i>
+                                      <span>Settings</span>
+                                  </a>
+                              </li>
+
+                              
+                              <li
+                              class="menu-item  ">
+                              <a href="index.html" class='menu-link'>
+                                  <i class="bi bi-chat-square-dots"></i>
+                                  <span>FAQ And Help</span>
+                              </a>
+                          </li>
+                              
+                              
+
+                              
+                              
+                              
+
+                              
+                              
+                              
+
+                              
+                              
+                          </ul>
+                      </div>
+                  </nav>
+  
+              </header>
+  
+<div class="content-wrapper container">
+                  
+
+  <div class="page-content">
+      <section class="row">
+          <div class="col-12 ">
+              <div class="row">
+                  <div class="col-6 col-lg-3 col-md-6">
+                      <div class="card">
+                          <div class="card-body px-4 py-4-5">
+                              <div class="row">
+                                  <div class="col-md-4 col-lg-12 col-xl-12 col-xxl-5 d-flex justify-content-start ">
+                                      <div class="stats-icon purple mb-2">
+                                          <i class="iconly-bi bi-box-fill"></i>
+                                      </div>
+                                  </div>
+                                  <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
+                                      <h6 class="text-muted font-semibold">Orders</h6>
+                                      <h6 class="font-extrabold mb-0">0/30</h6>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="col-6 col-lg-3 col-md-6">
+                      <div class="card">
+                          <div class="card-body px-4 py-4-5">
+                              <div class="row">
+                                  <div class="col-md-4 col-lg-12 col-xl-12 col-xxl-5 d-flex justify-content-start ">
+                                      <div class="stats-icon blue mb-2">
+                                          <i class="iconly-bi bi-cloud-download-fill"></i>
+                                      </div>
+                                  </div>
+                                  <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
+                                      <h6 class="text-muted font-semibold">Digital Products</h6>
+                                      <h6 class="font-extrabold mb-0">0/3</h6>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="col-6 col-lg-3 col-md-6">
+                      <div class="card">
+                          <div class="card-body px-4 py-4-5">
+                              <div class="row">
+                                  <div class="col-md-4 col-lg-12 col-xl-12 col-xxl-5 d-flex justify-content-start ">
+                                      <div class="stats-icon green mb-2">
+                                          <i class="iconly-bi bi-capslock-fill"></i>
+                                      </div>
+                                  </div>
+                                  <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
+                                      <h6 class="text-muted font-semibold">Storage</h6>
+                                      <h6 class="font-extrabold mb-0">0/100 MB</h6>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="col-6 col-lg-3 col-md-6">
+                      <div class="card">
+                          <div class="card-body px-4 py-4-5">
+                              <div class="row">
+                                  <div class="col-md-4 col-lg-12 col-xl-12 col-xxl-5 d-flex justify-content-start ">
+                                      <div class="stats-icon red mb-2">
+                                          <i class="iconly-bi bi-arrow-repeat"></i>
+                                      </div>
+                                  </div>
+                                  <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
+                                      <h6 class="text-muted font-semibold">bandwidth</h6>
+                                      <h6 class="font-extrabold mb-0">0/3 GB</h6>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              <ul>
+                {% for product in products %}
+                <li> {{ product.title }}</li>
+                {% endfor %}
+              </ul>
+              <div class="row">
+                  <div class="col-12">
+                      <div class="card">
+                          <div class="card-header">
+                              <h4>Manage your digital products</h4>
+                          </div>
+                          <div class="card-body">
+                              <div id="chart-profile-visit"></div>
+
+                              <div class="row">
+                                <div class="col-md-12 col-12">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-7 align-self-center">
+                                                    
+                                                <h4 class="card-title">Create Digital Product</h4>
+                                                <ul>
+                                                    <li>To link digital files with a product, Choose a product to which you want to attach digital files.</li>
+                                                    <li>Customers will be able to download these files when they purchase the product  .</li>
+                                                    <li>If you don't already have a product in your store , consider <a href="https://{{request.user.myshopify_domain}}/admin/products/new">creating one</a> .</li>
+                                                </ul>
+                                                
+                                                    
+                                                        
+
+                                                    <!-- Button trigger for basic modal 
+                                                    <button type="button" class="btn btn-primary block " data-bs-toggle="modal"
+                                                        data-bs-target="#default">
+                                                        Select a Product/Variant to Link Your Digital Downloads
+                                                    </button>-->
+                                                    <div class="alert alert-info"><i class="bi bi-check-circle"></i> Select a Product to Link Your Digital Downloads </div>
+
+                                                </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                            <div class="col-5 d-flex">
+                                                <img src="https://i.imgur.com/zcBCVok.jpg" alt="Card image cap" style="height: 20rem">
+                                            </div>
+                                        </div>
+
+
+
+                                        <div class="row">
+                                            <div class="col">
+                                                <section class="section">
+                                                    
+                                                    <div class="card">
+                                                        <div class="card-header">
+                                                            Select a product/variant to link your digital downloads
+                                                        </div>
+                                                        <div class="card-body" >
+                                                            <table class="table" id="Productdatatable">
+
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                           
+                                                </section> 
+                                            </div>
+                                        </div>
+                                            <!--Basic Modal -->
+                                            <div class="modal fade text-left" id="default" tabindex="-1" role="dialog"
+                                                aria-labelledby="myModalLabel1" aria-hidden="true">
+                                                <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
+
+                                                    <div class="modal-content">
+                                                                
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="myModalLabel1"></h5>
+                                                                <button type="button" class="close rounded-pill" data-bs-dismiss="modal"
+                                                                    aria-label="Close">
+                                                                    <i data-feather="x"></i>
+                                                                </button>
+                                                            </div>
+                                                        <div class="modal-body">
+
+                                                        <form id="SaveDP" >
+                                                            <input type="hidden" class="form-control" id="product_id" value="" name="product_id" >
+                                                            <input type="hidden" class="form-control" id="product_title" value="" name="product_title" >
+                                                            <h6>Basic Select with Input Group</h6>
+                                                            <div class="row">
+                                                              <div class="col-10">
+                                                                <div class="form-group">
+                                                                  <label for="variant">Select variant</label>
+                                                                  <select class="variants choices form-select" name="variant" id="variants" multiple="multiple"></select>
+                                                                </div>
+                                                              </div>
+                                                              <div class="col-2"> Select all <div class="form-check form-switch">
+                                                                  <input class="form-check-input" name="select_all_variants" type="checkbox" id="flexSwitchCheckChecked2">
+                                                                  <label class="form-check-label" for="flexSwitchCheckChecked2"></label>
+                                                                </div>
+                                                              </div>
+                                                            </div>
+                                                            <div class="row">
+                                                              <div class="col-12">
+                                                                <h6>Basic Select with Input Group</h6>
+                                                                <div class="row">
+                                                                  <div class="col-sm-3 mb-1">
+                                                                    <div class="input-group input-group-sm mb-3">
+                                                                      <div class="form-check">
+                                                                        <label class="form-check-label">
+                                                                          <input class="form-check-input" type="radio" name="dp-type" value="file"> Upload New File </label>
+                                                                      </div>
+                                                                    </div>
+                                                                  </div>
+                                                                  <div class="col-sm-3 mb-1">
+                                                                    <div class="input-group mb-3">
+                                                                      <div class="form-check">
+                                                                        <label class="form-check-label">
+                                                                          <input class="form-check-input" type="radio" name="dp-type" value="url"> Add from URL </label>
+                                                                      </div>
+                                                                    </div>
+                                                                  </div>
+                                                                  <div class="col-sm-3 mb-1">
+                                                                    <div class="input-group input-group-lg">
+                                                                      <div class="form-check">
+                                                                        <label class="form-check-label">
+                                                                          <input class="form-check-input" type="radio" name="dp-type" value="none" /> No File (only sell license keys) </label>
+                                                                      </div>
+                                                                    </div>
+                                                                  </div>
+                                                                </div>
+                                                                <div class="row dp-type-container">
+                                                                  <div class="col-12 dp-type-col dp-file">
+                                                                    <div class="form-group">
+                                                                      <label for="first-name-vertical">File Name :</label>
+                                                                      <input type="text" id="first-name-vertical" class="form-control" name="filename" placeholder="File Name">
+                                                                    </div>
+                                                                    <div class="file-upload-wrapper">
+                                                                      <div>
+                                                                        <label for="formFileLg" class="form-label">Upload Files</label>
+                                                                        <input class="form-control form-control-lg" id="formFileLg" name="dp-file" type="file">
+                                                                      </div>
+                                                                    </div>
+                                                                  </div>
+                                                                  <div class="col-12 dp-type-col dp-url">
+                                                                    <div class="form-body">
+                                                                      <div class="row">
+                                                                        <div class="col-12">
+                                                                          <div class="alert alert-info alert-dismissible show fade sm"> If you have uploaded a file to a location such as (Google Drive , Dropbox ...,) Enter the URL of the file you want your customers to be able to Download when they purchase products from your store. <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                                                          </div>
+                                                                          <div class="form-group">
+                                                                            <label for="first-name-vertical">File Name :</label>
+                                                                            <input type="text" id="first-name-vertical" class="form-control" name="urlfilename" placeholder="File Name">
+                                                                          </div>
+                                                                        </div>
+                                                                        <div class="col-12">
+                                                                          <div class="form-group">
+                                                                            <label for="email-id-vertical">File URL :</label>
+                                                                            <input type="url" id="email-id-vertical" class="form-control" name="external-URL" placeholder="Enter the URL for your externally hosted file">
+                                                                          </div>
+                                                                        </div>
+                                                                      </div>
+                                                                    </div>
+                                                                  </div>
+                                                                  <div class="col-12 dp-type-col dp-none"></div>
+                                                                </div>
+                                                                <div class="row">
+                                                                  <div class="col-12">
+                                                                    <div class="row">
+                                                                      <div class="card">
+                                                                        <div class="card-body">
+                                                                          <p> Do You Want To Sell Using License Keys ?</p>
+                                                                          <div class="form-check form-switch">
+                                                                            <input class="form-check-input" name="checkkeys" type="checkbox" id="flexSwitchCheckChecked1">
+                                                                            <label class="form-check-label" for="flexSwitchCheckChecked1"></label>
+                                                                          </div>
+                                                                        </div>
+                                                                      </div>
+                                                                    </div>
+                                                                    <div class="row dp-keys-container d-none">
+                                                                      
+                                                                      <div class="col-5 d-inline-flex">
+                                                                        <div class="form-group">
+                                                                          <label for="licensekeys">Select: </label>
+                                                                          <select class="licensekeys choices form-select" name="licensekeys" id="licensekeys">
+                                                                            <option value="Generatenewlicense" >Generate random license Keys </option>
+                                                                            <option value="Usemyownlicense" >Use my own license Keys</option>
+                                                                          </select>
+                                                                        </div>
+                                                                      </div>
+                                                                      
+                                                                      <div class="col-5 d-inline-flex">
+                                                                        <div class="form-group">
+                                                                          <label for="usage-limit" >Usage limit</label>
+                                                                          <input type="number" min="0" class="form-control" name="usage-limit" placeholder="Usage limit" value="1" title="0 for unlimited usage">
+                                                                        </div>
+                                                                      </div>
+
+                                                                    </div>
+                                                                  </div>
+                                                                  <div class="row">
+                                                                    <div class="form-group" id="keysgenerator" name="keysgenerator">
+                                                                      
+                                                                    </div>
+                                                                  </div>
+                                                                </div>
+                                                              </div>
+                                                            </div>
+                                                            <div class="form-group mb-3">
+                                                              <label for="additional-note" name="additional-note" class="form-label"> Write a Short Description That Will Appear Next to the download button on download page (Optional) </label>
+                                                              <textarea class="form-control" id="additional-note" name="additional-note" rows="6" style="height: 100px; width:800px"></textarea>
+                                                            </div>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                              <button type="button" class="btn" data-bs-dismiss="modal">
+                                                                <i class="bx bx-x d-block d-sm-none"></i>
+                                                                <span class="d-none d-sm-block">Close</span>
+                                                              </button>
+                                                              <button type="submit" id="btnsubmit" class="btn btn-primary ml-1">
+                                                                <i class="bx bx-check d-block d-sm-none"></i>
+                                                                <span class="d-none d-sm-block">Accept</span>
+                                                              </button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+
+      </section>
+  </div>
+  
+              </div>
+  
+              <footer>
+                  <div class="container">
+                      <div class="footer clearfix mb-0 text-muted">
+                          <div class="float-start">
+                              <p>2021 &copy; Mazer</p>
+                          </div>
+                          <div class="float-end">
+                              <p>Crafted with <span class="text-danger"><i class="bi bi-heart"></i></span> by <a
+                                  href="https://saugi.me">Saugi</a></p>
+                          </div>
+                      </div>
+                  </div>
+              </footer>
+          </div>
+      </div>
+
+      
+
+      <script src="{% static 'assets/js/bootstrap.js'%}"></script>
+      <script src="{% static 'assets/js/app.js'%}"></script>
+      <script src="{% static 'assets/js/pages/horizontal-layout.js'%}"></script>
+      <script src="{% static 'assets/extensions/jquery/jquery.min.js'%}"></script>
+      <script src="https://cdn.datatables.net/v/bs5/dt-1.12.1/datatables.min.js"></script>
+      <script src="{% static 'assets/js/pages/datatables.js'%}"></script>
+  
+  
+  </body>
+  
+  </html>
+
+  {% block javascript %} 
+<script>
+
+
+
+    
+
+
+
+    
+
+
+    
+// Add the CSRF token to the AJAX request headers
+$.ajaxSetup({
+    headers: {
+        'X-CSRFToken': '{{ csrf_token }}'
+    }
+});
+    $(document).ready(function() {
+        var Productdatatable=null
+        let var_choices;
+        let choices_items = [];
+        $.get("search-product/", {}, function(response) {
+        
+            products=response.data.products
+            console.log(products);
+
+            Productdatatable = $('#Productdatatable').DataTable( {
+                data: products,
+                columns: [
+                    { title:"Product Title", data:'title' },
+                    { title:"Actions", data: 'id' }
+                ],
+                columnDefs: [
+                                { 
+                                    targets: [0], 
+                                    render: function(data ,type,row){
+                                        return `
+                                            <div class="row">
+                                                <div class="col-2">
+                                                    <img src="${row.image.src}" style="width: 50px;" />
+                                                </div>
+                                                <div class="col-10">
+                                                    <h5>${data}</h5>
+                                                    <span>${row.variants.length} variants</span>
+                                                </div>
+                                            </div>
+                                            `;
+                                    }
+                                },
+                                {
+                                    targets: [-1], 
+                                    render: function(data ,type,row){
+                                        
+                                        return `
+                                        
+                                        <button data-bs-toggle="modal" data-bs-target="#default" class="btn icon icon-left btn-outline-primary btn-sm setDigitalProduct"  data-id="${row.id}"> <i class="bi bi-cloud-upload"></i> Set Digital Pruduct</button>
+                                        
+                                        `;
+
+
+                                    }
+                                }
+                            ]
+     
+            });
+
+
+
+            
+
+          $('.setDigitalProduct').on('click', function() {
+            p_id=$(this).data("id")
+            var pInfos = null;
+           
+            Productdatatable.rows().data().each(function(v){
+                if(v.id == p_id){
+                    pInfos = v;
+                    return false;
+                }
+            });
+
+            if(pInfos == null)
+            {
+                console.log("no product found with this ID")
+                return false;
+            }
+            $('#product_id').val(pInfos.id)
+            $('#product_title').val(pInfos.title)
+            console.log(pInfos)
+            $('#default .modal-header .modal-title').text("Edit digital product: "+pInfos.title);
+            
+            $('#default .modal-body select.variants').html('')
+
+            $.each(pInfos.variants, function(i, v) {
+                
+
+                var obj = {
+                    "id": v.id,
+                    "sku": v.sku,
+                    "title": v.title
+                };
+
+                var value = JSON.stringify(obj);
+                value = encodeURI(value);
+                choices_items.push({
+                    value: value, 
+                    label: `Title:${v.title} - SKU:${v.sku}`, 
+                    id: i+1, 
+                    disabled: false,
+                    selected: false
+                });
+                /*
+                $('#default .modal-body select.variants').append(`
+                                    <option value="${value}" >Title:${v.title} - SKU:${v.sku} </option>
+                `);
+                */
+                                
+            });
+            var_choices = new Choices($('#default .modal-body select.variants')[0],{
+                delimiter: ",",
+                maxItemCount: -1,
+                removeItemButton: true,
+            }).setChoices(choices_items);
+
+            //choices_items = var_choices.getValue();
+            //console.log(choices_items);
+
+
+            
+            $("input[name=dp-type][value=file]").prop('checked', true);
+            dp_type_form();
+            
+
+
+
+
+
+
+
+
+
+
+
+          })
+
+
+
+          $("input[name=dp-type]").on('change',function(){
+            dp_type_form();
+          });
+
+          function dp_type_form()
+          {
+            $('#default .modal-body .dp-type-container .dp-type-col').addClass('d-none');
+            var selected_dp_type = $("input[name=dp-type]:checked").val();
+
+            
+            $('#default .modal-body .dp-type-container .dp-file input').val('');
+            $('#default .modal-body .dp-type-container .dp-url input').val('');
+
+            if(selected_dp_type == 'file')
+            {
+                $('#default .modal-body .dp-type-container .dp-file').removeClass('d-none').addClass('d-block');
+
+            }else if(selected_dp_type == 'url')
+            {
+                $('#default .modal-body .dp-type-container .dp-url').removeClass('d-none').addClass('d-block');
+            }
+            else if(selected_dp_type == 'none')
+            {
+                select_key_type();
+                $('#default .modal-body .dp-type-container .dp-none').removeClass('d-none').addClass('d-block');
+            }
+            
+
+          }
+          
+
+          
+          $("input[name=checkkeys]").on('change',function(){
+            if($(this).prop('checked'))
+            {
+                $('.dp-keys-container').removeClass('d-none').addClass('d-block');
+            }else
+            {
+                
+                $('.dp-keys-container').removeClass('d-block').addClass('d-none');
+
+            }
+            select_key_type();
+
+            
+          });
+       $('#default .modal-body input[name=select_all_variants]').on('change',function(){
+            
+            
+           
+            var is_selected = $(this).prop('checked');
+
+            choices_items = choices_items.map(function(item){
+                var newItem = item;
+                newItem.selected = is_selected;
+                return newItem;
+            });
+
+            var_choices.clearStore().setChoices(choices_items,'value','label',false);
+
+            
+            
+                
+                
+       });
+
+
+
+
+          
+          $("select[name=licensekeys]").on('change',function(){
+            select_key_type();
+          });
+
+          
+
+
+
+        function select_key_type(){
+
+            var selected_key_type=$("select[name=licensekeys] option:selected").val();
+            if($("input[name=checkkeys]").prop('checked') == false){
+                $('#keysgenerator').html("")
+            }else{
+                if(selected_key_type == 'Generatenewlicense')
+                {
+                    $('#keysgenerator').html(`
+                    
+                    <div class="col-sm-4">
+                        <h6>Key count:- for example : 10
+                        </h6>
+                        
+                        <input class="form-control form-control-sm generaterandomkeys" type="number"  placeholder="" value="10">
+                    </div>
+                    
+                    <div class="form-group mb-3">
+                        <label for="generatedkeys" class="form-label"></label>
+                        <textarea name="generatedkeys" class="form-control" id="generatedkeys" placeholder="Generate Keys.." rows="10" style="height: 100px; width:800px"></textarea>
+                    </div>
+
+                    `);
+                    $('.generaterandomkeys').blur()
+
+
+                }else if(selected_key_type == 'Usemyownlicense'){
+                    $('#keysgenerator').html(`
+                    <div class="col-9">
+                    <div class="form-group mb-3">
+                        <label for="yourkeys" class="form-label">Add your keys here</label>
+                        <textarea name="manualkeys" class="form-control" id="yourkeys" placeholder="Add Your keys here" rows="10"></textarea>
+                    </div></div>`)
+                }
+            }
+            
+
+        }
+
+
+
+
+
+        
+
+        $(document).on('blur','.generaterandomkeys',function(){
+            var holo=""
+            for (let i =0; i < $(this).val(); i++) {
+                holo=holo+randomString(10)+"\n";
+
+             }
+         
+            $("#generatedkeys").text(holo)
+        })
+
+
+
+        function randomString(length) {
+            var result = '';
+            var chars='0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
+            for (var i = length; i > 0; --i) result += chars[Math.round(Math.random() * (chars.length - 1))];
+            return result;
+        }
+        
+        
+
+
+
+    
+ 
+
+        $('form#SaveDP').submit(function(event) {
+
+            //var slV = $('#default .modal-body select.variants option:selected');
+            //console.log((slV.data("sku") !== undefined ? slV.data("sku") : ''))
+            event.preventDefault()
+            var formdata = new FormData(this)
+            let sel_variants = [];
+            $('#default .modal-body select.variants option:selected').each(function(i){
+                sel_variants.push(JSON.parse(decodeURI($( this ).val())));
+                //console.log(v.data("sku") !== undefined ? v.data("sku") : ' ');
+            });
+            sel_variants = JSON.stringify(sel_variants);
+
+            formdata.append('variants',sel_variants)
+            //formdata.append('variantsku',(slV.data("sku") !== undefined ? slV.data("sku") : ' '))
+            
+            
+        
+            $.ajax({
+                type: 'POST',
+                url: '{% url "dp_form_submit" %}',
+                processData: false,  
+                contentType: false,          
+                data: formdata,
+                success: function(data) {
+                    console.log(data)
+                },
+                error: function() {
+                    alert('Form submission failed.');
+                }
+            });
+            
+            return false;
+        });
+
+
+
+
+
+
+
+
+        $('#default').on('hide.bs.modal', function() {
+            var_choices.clearChoices().destroy();
+            choices_items = [];
+            $('#default .modal-header .modal-title').text("");
+            $('#default .modal-body select.variants').html('')
+            $('#default .modal-body .dp-type-container .dp-type-col').removeClass('d-block').addClass('d-none');
+            $('.dp-keys-container').removeClass('d-block').addClass('d-none');
+            $("input[name=checkkeys]").prop('checked',false)
+            $('#keysgenerator').html("")
+            $('#generatedkeys').text("");
+            $('#yourkeys').text("");
+            $('#additional-note').val("");
+            $('#product_id').val("");
+            $('#product_title').val("");
+            $(this).find('form').trigger('reset');
+
+          });
+    
+    
+
+
+        })
+
+
+
+
+    })
+
+
+
+</script>
+
+  {% endblock javascript %} 
+  
+  {% endblock %}
