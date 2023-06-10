@@ -13,6 +13,8 @@ urlpatterns = [
 
   #dp =digital product
   path('dipr-form-submit/', views.dp_form_submit, name='dp_form_submit'),
+  path('product_submit/', views.product_submit, name='product_submit'),
+
   
   path('save-file/', views.save_file, name='save_file'),
 

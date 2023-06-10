@@ -209,7 +209,7 @@ from google.cloud import storage
 def save_file(request):
     if request.method == 'POST':
         
-        if 'filename' not in request.POST:
+        if request.POST.get('filename') == '' :
             return JsonResponse({'success': False, 'message': 'File name is required'})
         
         if  'file' not in request.FILES and 'url' not in request.POST:
@@ -260,17 +260,54 @@ def save_file(request):
 
 
         
-        return JsonResponse({'message': 'File saved successfully.'}) if created_file else JsonResponse({'message': 'Error saving file.'})
+        return JsonResponse({'success': True, 'message': 'File saved successfully, and reloaded to the file list.'}) if created_file else JsonResponse({'success': False, 'message': 'Error saving file.'})
     else:
-        return JsonResponse({'error': 'Invalid request.'})
+        return JsonResponse({'success': False, 'message': 'Invalid request.'})
+    
+import urllib.parse
 
+@login_required
+@require_POST
+def product_submit(request):
+    try:
+        with transaction.atomic():
+            product_id=request.POST.get('selected-product')
+            product_title=request.POST.get('product-title')
+            variants=request.POST.getlist('variant')
+            filid=request.POST.get('files')
+            licensekey=request.POST.get('licensekeys')
+            Keyswitcher=request.POST.get('Keyswitcher')
+            variants = [(urllib.parse.unquote(variant)) for variant in variants]
+            
+            if not  product_id:
+                raise ValidationError('Missing product fields')
 
+            if not variants :
+                raise ValidationError('Missing variants fields')
+            
+            digital_product = DigitalProduct.objects.update_or_create(
+                shopify_id=product_id,
+                defaults={'title': product_title, 'user':request.user}
+            )
+            assigned_variants = []
 
+            for v in variants:
+                v = json.loads(v)
+                     
+                variant = Variant.objects.update_or_create(
+                        shopify_id=v['id'],
+                        
+                        defaults={'name':v['title'],'sku':v['sku'],'digital_product':digital_product}
+                    )
+                assigned_variants.append(variant)
 
+            response_data = {'success': True}
 
-
-
-
+    except Exception as e:
+        response_data = {'success': False, 'message': str(e)}
+    return JsonResponse(response_data)
+#
+#
 
 
 

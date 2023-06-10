@@ -182,6 +182,8 @@
                   </div>
               </div>
 
+              <form id="submitproducts">
+
               <div class="row">
                   <div class="col-12">
                       <div class="card">
@@ -233,6 +235,8 @@
                   </div>
               </div>
               
+
+             
               
               <div class="row " >
                 <div class="selectcontainer col-md-12 col-12">
@@ -298,6 +302,7 @@
                                         <div class="col-9 form-group">
                                         <label for="licensekeys">Select: </label>
                                         <select class="licensekeys choices form-select" name="licensekeys" id="licensekeys">
+                                            
                                             <option value="Usemyownlicense" >Use my own license Keys</option>
                                             <option value="Generatenewlicense" >Generate random license Keys </option>
                                         </select>
@@ -332,9 +337,23 @@
 
 
 
+              <div class="row">
+                <div class="col-12">        
+
+                    <button type="submit" class="btn btn-success btn-lg btn-block" id="saveproduct">Save Digital Product</button>
+             
+                 </div>
+              </div>
 
 
 
+              <br >
+              <br >
+
+            </form>
+
+            <br >
+            <br >
 
 
               <div class="row">
@@ -481,14 +500,15 @@ $(document).ready(function() {
   })
   
   $('#PR_Multi').on('click','.p-item',function(){
-    //console.log($(this).val())
     let p_id = $(this).data('id');
+    let p_title = $(this).data('title');
+
     $(".selected-product").empty();
     $('.p-item').removeClass('list-group-item-primary');
 
     $(this).addClass('list-group-item-primary');
     
-    $(this).clone().appendTo(".selected-product").addClass('list-group-item-success');
+    $(this).clone().appendTo(".selected-product").addClass('list-group-item-success').append(`<input type="hidden" name="selected-product" value="${p_id}" /> <input type="hidden" name="product-title" value="${p_title}" /> `);
     $('#PR_Multi').empty();
     var product;
     $.each(products,function(i, v){
@@ -538,7 +558,6 @@ $(document).ready(function() {
     
         $.each(files,function(i, v){
             
-        console.log(v.name)
         
         choices_itemsfile.push({
             value: v.id, 
@@ -608,7 +627,7 @@ $(document).ready(function() {
             <p class="card-text">Upload new file here.</p>
             <input type="file" name="" id="fileponduploader" class="basic-filepond">
         </div>
-        <button class="btn btn-primary block" id="UploadFile">Upload File</button>
+        <button type="button" class="btn btn-primary block" id="UploadFile">Upload File</button>
 
         `;
         let fileUrlHtml = `
@@ -620,7 +639,7 @@ $(document).ready(function() {
             <label for="urlinput">File URL :</label>
             <input type="url" id="urlInput" class="form-control" name="external-URL" placeholder="Enter the URL for your externally hosted file">
         </div>
-        <button class="btn btn-primary block" id="UploadUrl">Save File</button>
+        <button type="button" class="btn btn-primary block" id="UploadUrl">Save File</button>
         `;
         element.html("");
         if($(this).prop('checked'))
@@ -655,6 +674,9 @@ $(document).ready(function() {
     // ganarate keys
     $("select[name=licensekeys]").on('change',function(){
         $('.key-container').removeClass('d-none').addClass('d-block');
+
+
+        select_key_type()
         
       });
 
@@ -734,7 +756,8 @@ $(document).ready(function() {
             if(filepond !== undefined)
             {
                 let file = filepond.getFile();
-                formData.append('file', file.file);
+                if (file)
+                    formData.append('file', file.file);
             }
         
             // Send the AJAX request to Django
@@ -750,10 +773,19 @@ $(document).ready(function() {
                 elm.text(oldtext)
                 load_files()
                 Swal.fire(
-                    'Good job!',
-                    resp.msg,
-                    'success'
-                  )
+                    response.success == 1 ? 'Good job!' : 'ERROR ',
+                    response.message,
+                    response.success == 1 ? 'success' : 'error'
+                  ).then(function() {
+                    $('#filename').val("")
+                    filepond.removeFiles()
+
+                    //$('.uploadcontainer').removeClass('d-block').addClass('d-none');
+
+                   // $('.selectcontainer').removeClass('col-md-6').addClass('col-md-12');
+                    
+                
+                });
               },
               error: function(xhr, status, error) {
                 console.error(xhr.responseText);
@@ -783,6 +815,21 @@ $(document).ready(function() {
                 // Handle the success response
                 console.log(response);
                 load_files()
+                Swal.fire(
+                    response.success == 1 ? 'Good job!' : 'ERROR ',
+                    response.message,
+                    response.success == 1 ? 'success' : 'error'
+                  ).then(function() {
+                    $('#filename').val("")
+                    $('#urlInput').val("")
+
+                    //$('.uploadcontainer').removeClass('d-block').addClass('d-none');
+
+                   // $('.selectcontainer').removeClass('col-md-6').addClass('col-md-12');
+                    
+                
+                });
+
               },
               error: function(xhr, status, error) {
                 // Handle the error response
@@ -802,7 +849,7 @@ $(document).ready(function() {
     $.each(searchedValues, function(i, v) {
         //console.log(v.images[0].src)
         $('#PR_Multi').append(`
-        <li class="list-group-item p-item" data-id='${v.id}'>
+        <li class="list-group-item p-item" data-id='${v.id}' data-title='${v.title}'>
         <div class="row">
             <div class="col-2">
              <img class="w-100 P-img" src='${v.image.src}' ' />
@@ -818,6 +865,44 @@ $(document).ready(function() {
       
     }
 
+
+
+
+    $('form#submitproducts').submit(function(event) {
+
+        event.preventDefault()
+        var formdata = new FormData(this)
+        for (const value of formdata.values()) {
+            console.log(value);
+          }
+          
+        //let sel_variants = [];
+        //$('#default .modal-body select.variants option:selected').each(function(i){
+        //    sel_variants.push(JSON.parse(decodeURI($( this ).val())));
+        //    //console.log(v.data("sku") !== undefined ? v.data("sku") : ' ');
+        //});
+        //sel_variants = JSON.stringify(sel_variants);
+//
+        //formdata.append('variants',sel_variants)
+        //
+        
+    
+       $.ajax({
+           type: 'POST',
+           url: '{% url "product_submit" %}',
+           processData: false,  
+           contentType: false,          
+           data: formdata,
+           success: function(data) {
+               console.log(data)
+           },
+           error: function() {
+               alert('Form submission failed.');
+           }
+       });
+        
+        return false;
+    });
 
 
     
