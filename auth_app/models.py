@@ -24,15 +24,16 @@ class Plan(models.Model):
 class DigitalProduct(models.Model):
     shopify_id= models.IntegerField()
     title=models.TextField()
-    image=models.TextField()
     user=models.ForeignKey(AuthAppShopUser ,on_delete=models.CASCADE)
+    used_files_ids= models.TextField(max_length=2000) #"id1,id2,id3..idn"  42382585004184
+    used_variants_ids= models.TextField(max_length=2000) #"id1,id2,id3..idn" 
+    
     
     
 class Variant(models.Model):
     shopify_id = models.IntegerField(unique=True)
     name = models.CharField(max_length=255)
     sku = models.CharField(max_length=255)
-    digital_product = models.ForeignKey(DigitalProduct, on_delete=models.CASCADE)
 
     
 class File(models.Model):

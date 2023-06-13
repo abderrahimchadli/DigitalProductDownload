@@ -5,7 +5,7 @@ from django.shortcuts import redirect
 from .models import Plan
 # Create your views here.
 from django.core import serializers
-from .models import Billing ,Plan,DigitalProduct,Variant,SerialKey,File
+from .models import Billing ,Plan,DigitalProduct,Variant,SerialKey,File,DigitalProductFile,SerialKey
 from django.conf import settings
 from django.contrib.auth import logout
 from django.http import HttpResponse,JsonResponse
@@ -274,38 +274,84 @@ def product_submit(request):
             product_id=request.POST.get('selected-product')
             product_title=request.POST.get('product-title')
             variants=request.POST.getlist('variant')
-            filid=request.POST.get('files')
             licensekey=request.POST.get('licensekeys')
+            selectedfiles=request.POST.getlist('files')
             Keyswitcher=request.POST.get('Keyswitcher')
+            generatedkeys=request.POST.get('generatedkeys')
             variants = [(urllib.parse.unquote(variant)) for variant in variants]
-            
+            #print(request.POST)
             if not  product_id:
                 raise ValidationError('Missing product fields')
 
             if not variants :
                 raise ValidationError('Missing variants fields')
             
-            digital_product = DigitalProduct.objects.update_or_create(
-                shopify_id=product_id,
-                defaults={'title': product_title, 'user':request.user}
-            )
-            assigned_variants = []
-
+            assigned_files = ','.join(selectedfiles)
+            
+            
+            
+            assigned_variants = ''
+            #selected variants
             for v in variants:
                 v = json.loads(v)
-                     
+                #print(digital_product,created,"heeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee")
                 variant = Variant.objects.update_or_create(
                         shopify_id=v['id'],
-                        
-                        defaults={'name':v['title'],'sku':v['sku'],'digital_product':digital_product}
+                        defaults={'name':v['title'],'sku':v['sku']}
                     )
-                assigned_variants.append(variant)
+                assigned_variants = assigned_variants+','+str(v['id'])
+                
+            assigned_variants = assigned_variants.strip(',')
+            assigned_files = assigned_files.strip(',')
+            foundvariants=[]
+            existing_product = DigitalProduct.objects.filter(shopify_id=product_id)
+            variants_list = assigned_variants.split(',')
+            
+            for e in existing_product:
+                existing_variants= e.used_variants_ids.split(',')
+                for v in variants_list:
+                    if v in existing_variants:
+                        foundvariants.append(v)
+                        
+            if len(foundvariants) > 0 :
+                return JsonResponse ({'success': False, 'message': f' some variants alrady in use!'})                         
+                
+            digital_product= DigitalProduct.objects.create(
+                shopify_id=product_id,
+                used_files_ids=assigned_files,
+                used_variants_ids=assigned_variants,                
+                title=product_title, 
+                user=request.user
+            )            
+            #print(assigned_variants)
+
+            
+            #print('no',generatedkeys)
+            generatedkeyslist=generatedkeys.split()
+            #print('list',generatedkeyslist)
+            
+            if Keyswitcher=="on":
+                
+                for key in generatedkeyslist:
+                    
+                    serialkeys=SerialKey.objects.create(
+                        key=key,
+                        digital_product=digital_product,
+                        )
+            #selected files 
+                
+                
+                
+                
+                
+
+            
 
             response_data = {'success': True}
-
     except Exception as e:
         response_data = {'success': False, 'message': str(e)}
     return JsonResponse(response_data)
+
 #
 #
 
