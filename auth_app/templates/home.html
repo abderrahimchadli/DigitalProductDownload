@@ -458,10 +458,12 @@ $.ajaxSetup({
 $(document).ready(function() {
   let choices_items = [];
   let choices_itemsfile = [];
+  let dgpdtTable ;
 
   var searchedValues = [];
   var products = [];
   var filepond;
+
 
 
   
@@ -872,6 +874,7 @@ $(document).ready(function() {
 
         event.preventDefault()
         var formdata = new FormData(this)
+        formdata.append('product-image',$('.P-img').attr('src'));
         for (const value of formdata.values()) {
             console.log(value);
           }
@@ -882,11 +885,12 @@ $(document).ready(function() {
         //    //console.log(v.data("sku") !== undefined ? v.data("sku") : ' ');
         //});
         //sel_variants = JSON.stringify(sel_variants);
-//
-        //formdata.append('variants',sel_variants)
         //
+        //formdata.append('variants',sel_variants)
         
-    
+
+
+        dgpdtTable.clear().destroy();
        $.ajax({
            type: 'POST',
            url: '{% url "product_submit" %}',
@@ -895,9 +899,12 @@ $(document).ready(function() {
            data: formdata,
            success: function(data) {
                console.log(data)
+               fetchdigitalproducts()
            },
            error: function() {
                alert('Form submission failed.');
+               
+               fetchdigitalproducts()
            }
        });
         
@@ -905,8 +912,91 @@ $(document).ready(function() {
     });
 
 
-    
 
+
+
+
+
+    // get digital Products
+        
+    function fetchdigitalproducts() {
+        $.ajax({
+            url: '/get_digital_product/', // Replace with the actual URL
+            type: 'GET',
+            dataType: 'json',
+            success: function(data) {
+                console.log(data)
+                data=data.data.DigitalProduct
+                // Initialize the DataTable
+                dgpdtTable = $('#Productdatatable').DataTable({
+                    destroy: true,
+                    data: data,
+                    order:[[0, "desc"]] ,
+                    columns: [
+                        { data: 'id'},
+                        { data: 'title' },
+                        { data: 'variants' },
+                        { data: 'id'}
+                        
+                    ],
+                    columnDefs: [
+                        {
+                            target:0,
+                            visible:false
+                        },
+                        {
+                            targets:1 ,
+                            render: function(data,type,row){
+                                
+                                return  ` 
+                                        <div class="row">
+                                            <div class="col-2">
+                                             <img style="max-height: 70px; max-width: 70px;" class="img-thumbnail mx-auto  Prod-img" src='${row.imagelink ?? ''}' />
+                                            </div>
+                                            <div class="col">
+                                                <h5>${row.title}</h5>
+                                              </div>
+                                        </div>
+                                `
+                            }
+                        },
+                        {
+                            targets:2 ,
+                            render: function(data,type,row){
+                                
+                                return `
+                                <select class="form-select">
+                                    ${row.variants.map(function(item){
+                                        return '<option>'+item+'</option>'
+                                      })}
+                                </select>
+                                `
+                            }
+                        },
+                        {
+                            targets:-1 ,
+                            render: function(data,type,row){
+                                return `<a href="#" class="btn icon btn-primary"><i class="bi bi-pencil"></i></a> - 
+                                <a href="#" class="btn icon btn-info"><i class="bi bi-eye-fill"></i></a> -
+                                <a href="#" class="btn icon btn-secondary"><i class="bi bi-link"></i></a> -
+                        
+                                <a href="#" class="btn icon btn-danger"><i class="bi bi-trash3"></i></a>
+                                `;
+                            }
+                        },
+                    ]
+                });
+
+            },
+            error: function(xhr, status, error) {
+                console.error(error);
+            }
+        });
+    }
+
+    // Call the fetchSerialKeys function to populate the DataTable on page load
+    fetchdigitalproducts();
+    
 
 
 })
