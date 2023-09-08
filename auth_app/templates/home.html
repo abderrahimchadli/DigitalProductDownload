@@ -182,7 +182,7 @@
                   </div>
               </div>
 
-              <form id="submitproducts">
+            <form id="submitproducts">
 
               <div class="row">
                   <div class="col-12">
@@ -385,10 +385,97 @@
                     </div>
 
                 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             </div>
             
 
 
+                                <div class="modal fade text-left modaldigitalproduct" id="large" tabindex="-1" role="dialog"
+                                    aria-labelledby="myModalLabel17" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg"
+                                        role="document">
+                                        <div class="modal-content">
+                                            
+                                            <form id="modaleditdigital" method="POST">
+                                            <div class="modal-header">
+                                                <h4 class="modal-title" id="myModalLabel17">Large Modal</h4>
+                                                <button type="button" class="close" data-bs-dismiss="modal"
+                                                    aria-label="Close">
+                                                    <i data-feather="x"></i>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+
+
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                            <div class="form-group">
+                                                                <label for="digitalvariant">Selected variant</label>
+                                                                <select class="digitalvariant choices form-select" name="digitalvariant" id="digitalvariant" multiple="multiple"></select>
+
+                                                                <label for="digitalvariant">Selected Files</label>
+                                                                <select class="digitalFile choices form-select" name="digitalFile" id="digitalFile" multiple="multiple"></select>
+
+
+                                                                <label for="exampleFormControlTextarea1" class="form-label">All License Keys</label>
+                                                                <textarea class="form-control showkeys" id="exampleFormControlTextarea1" name="licenseKeysappend" rows="11" style="height: 114px;" readonly></textarea>
+                                    
+
+
+
+
+                                                                <div class="row mt-3">
+                                                                    <div class="col-md-6">
+                                                                    <textarea id="licenseKeysappend" placeholder="Enter license keys to add (one key per line)." rows="11" style="height: 114px;" class="form-control"></textarea>
+                                                                    
+                                                                    <button id="addSerialKeys" class="btn btn-primary mt-2 rounded-pill btn-success">Add Serial Keys</button>
+
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <textarea id="licenseKeysremove" placeholder="Enter license keys to remove (one key per line)." rows="11" style="height: 114px;" class="form-control"></textarea>
+                                                                    <button id="removeSerialKeys" class="btn btn-danger mt-2 rounded-pill">Remove Serial Keys</button>
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                </div>
+
+
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-light-secondary"
+                                                    data-bs-dismiss="modal">
+                                                    <i class="bx bx-x d-block d-sm-none"></i>
+                                                    <span class="d-none d-sm-block">Cancel</span>
+                                                </button>
+                                                <button type="submit"  class="btn btn-primary ml-1"
+                                                    data-bs-dismiss="modal"> 
+                                                    <i class="bx bx-check d-block d-sm-none"></i>
+                                                    <span class="d-none d-sm-block">Save</span>
+                                                </button>
+                                            </div>
+                                            
+                                        </form>
+                                        </div>
+                                    </div>
+                                </div>
 
 
 
@@ -459,6 +546,7 @@ $(document).ready(function() {
   let choices_items = [];
   let choices_itemsfile = [];
   let dgpdtTable ;
+  let digitalchoices_items = [];
 
   var searchedValues = [];
   var products = [];
@@ -473,12 +561,22 @@ $(document).ready(function() {
     removeItemButton: true,
   }).setChoices(choices_items);
 
+//// Initialize the Choices.js dropdown with the empty digitalchoices_items array
+//let var_choicesdigital = new Choices($('select.digitalvariant')[0], {
+//    delimiter: ",",
+//    maxItemCount: -1,
+//    removeItemButton: true,
+//}).setChoices(digitalchoices_items);
+//
+
   let file_choices = new Choices($('select.files')[0],{
     delimiter: ",",
     maxItemCount: -1,
     removeItemButton: true,
   }).setChoices(choices_itemsfile);
 
+
+  
   
   $.get("get-product/", {}, function(response) {
 
@@ -949,7 +1047,7 @@ $(document).ready(function() {
                             render: function(data,type,row){
                                 
                                 return  ` 
-                                        <div class="row">
+                                        <div class="row" >
                                             <div class="col-2">
                                              <img style="max-height: 70px; max-width: 70px;" class="img-thumbnail mx-auto  Prod-img" src='${row.imagelink ?? ''}' />
                                             </div>
@@ -976,16 +1074,21 @@ $(document).ready(function() {
                         {
                             targets:-1 ,
                             render: function(data,type,row){
-                                return `<a href="#" class="btn icon btn-primary"><i class="bi bi-pencil"></i></a> - 
-                                <a href="#" class="btn icon btn-info"><i class="bi bi-eye-fill"></i></a> -
-                                <a href="#" class="btn icon btn-secondary"><i class="bi bi-link"></i></a> -
-                        
-                                <a href="#" class="btn icon btn-danger"><i class="bi bi-trash3"></i></a>
+                                return `<a data-id="${row.id}" class="btn icon btn-primary btnedit"><i class="bi bi-pencil"></i></a> - 
+                                <a  data-id="${row.id}" class="btn icon btn-secondary btnurl"><i class="bi bi-link"></i></a> -
+                                <a href="#"  data-id="${row.id}" class="btn icon btn-danger btnremove"><i class="bi bi-trash3"></i></a> -
+                                <a href="#" data-id="${row.id}" class="btn icon btn-info btnpreview"><i class="bi bi-eye-fill"></i></a> 
+
                                 `;
                             }
                         },
                     ]
                 });
+
+
+
+            
+            
 
             },
             error: function(xhr, status, error) {
@@ -997,6 +1100,164 @@ $(document).ready(function() {
     // Call the fetchSerialKeys function to populate the DataTable on page load
     fetchdigitalproducts();
     
+// Define an empty digitalchoices_items array initially
+
+const keystextArea ="";
+var digitalid;
+let var_choicesdigital;
+let file_choicesdigital;
+$('#Productdatatable').on('click', '.btnedit', function() {
+    $("#modaleditdigital").unbind('submit');
+    var digitalid = $(this).closest('.btnedit').data("id");
+    console.log(digitalid);
+    var_choicesdigital = new Choices($('select.digitalvariant')[0], {
+        delimiter: ",",
+        maxItemCount: -1,
+        removeItemButton: true,
+    });
+    file_choicesdigital = new Choices($('select.digitalFile')[0], {
+        delimiter: ",",
+        maxItemCount: -1,
+        removeItemButton: true,
+    });
+
+        // Find the textarea element by its class name
+    const keystextArea = document.querySelector('.showkeys');
+    //keystextArea.disabled = true;
+        
+    // Fetch the variants for the selected digital product using an AJAX request
+    $.ajax({
+        url: '/get_variants_for_digital_product/', // Replace with the actual URL to fetch variants
+        type: 'GET',
+        data: { digital_id: digitalid }, // Pass the digital product ID
+        dataType: 'json',
+        success: function(data) {
+            let variants = data.variants;
+            let files= data.files;
+            let licensekeys = data.serial_keys.map(item => item.value); // Extract license keys
+            // Modify the variants array to set all items as selected
+            variants.forEach(function(variant) {
+            variant.selected = true;
+            files.forEach(function(file){
+             file.selected=true;
+            })
+        });
+
+            // Initialize the Choices.js dropdown with the variants
+            var_choicesdigital.setChoices(variants, 'value', 'label', true);
+            file_choicesdigital.setChoices(files, 'value', 'label', true);
+            keystextArea.value = licensekeys.join('\n');
+        },
+        error: function(xhr, status, error) {
+            console.error(error);
+        }
+    });
+
+
+
+    $('.modaldigitalproduct').modal('show');
+
+
+
+    $('#addSerialKeys').on('click', function () {
+        var keysToAdd = $('#licenseKeysappend').val(); // Get keys from the "Add" textarea
+        var currentKeys = $('#exampleFormControlTextarea1').val(); // Get current keys from the "All License Keys" textarea
+
+        // Concatenate the keys to add with the current keys (separated by newline)
+        var newKeys = currentKeys + '\n' + keysToAdd;
+
+        // Update the "All License Keys" textarea with the new keys
+        $('#exampleFormControlTextarea1').val(newKeys.trim());
+
+        // Clear the "Add" textarea
+        $('#licenseKeysappend').val('');
+
+        return false
+    });
+
+    // Button to remove serial keys
+    $('#removeSerialKeys').on('click', function (e) {
+        e.preventDefault();
+        var keysToRemove = $('#licenseKeysremove').val(); // Get keys to remove from the "Remove" textarea
+        var currentKeys = $('#exampleFormControlTextarea1').val(); // Get current keys from the "All License Keys" textarea
+
+        // Split the current keys into an array
+        var currentKeysArray = currentKeys.split('\n');
+
+        // Filter out the keys to remove
+        var filteredKeys = currentKeysArray.filter(function (key) {
+            return keysToRemove.indexOf(key) === -1;
+        });
+
+        // Join the filtered keys back into a string (separated by newline)
+        var newKeys = filteredKeys.join('\n');
+
+        // Update the "All License Keys" textarea with the new keys
+        $('#exampleFormControlTextarea1').val(newKeys);
+
+        // Clear the "Remove" textarea
+        $('#licenseKeysremove').val('');
+
+        return false
+    });
+
+$("#modaleditdigital").on("submit", function(e) {
+
+    e.preventDefault(); // Prevent the default form submission
+
+    // Serialize the form data into a format that can be sent via AJAX
+    var formEdata = $(this).serialize();
+    // Append the digitalid to the formData
+    formEdata += '&digitalid=' + digitalid;
+    console.log('aaaaa',formEdata)
+    $.ajax({
+        url: "edit-digital-product/", // Replace with your API endpoint URL
+        method: "POST",
+        data: formEdata,
+        success: function(response) {
+            
+            // Handle the success response here
+            console.log("Data saved successfully!");
+
+            
+        },
+        error: function(xhr, status, error) {
+            // Handle errors here
+            console.error("Error: " + error);
+        }
+    });
+});
+    
+    
+
+
+});
+
+
+
+
+
+    
+$('.modaldigitalproduct').on('hidden.bs.modal', function() {
+    console.log('Modal hidden event fired.')
+    var_choicesdigital.clearChoices().destroy();
+    file_choicesdigital.clearChoices().destroy();
+    keystextArea.value=""
+    $('#licenseKeysappend').val('');
+    $('#licenseKeysremove').val('');
+
+
+  });
+
+
+
+
+
+
+
+
+
+
 
 
 })

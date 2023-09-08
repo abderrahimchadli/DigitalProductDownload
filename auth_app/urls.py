@@ -23,6 +23,10 @@ urlpatterns = [
   path("handle-charge/<int:id>",views.handle_billing),
   path("activate-plan/<int:id>",views.activate_plan),
   path("pricing/",views.pricing),
-  path('get_serial_keys/', views.get_serial_keys, name='get_serial_keys'),
+  #path('get_serial_keys/', views.get_serial_keys, name='get_serial_keys'),
+  path('get_digital_product/', views.get_digital_product, name='get_digital_product'),
+  path('get_variants_for_digital_product/', views.get_variants_for_digital_product, name='get_variants_for_digital_product'),
+  path('edit-digital-product/', views.edit_digital_product, name='edit-digital-product'),
+
 
  ]
