@@ -77,6 +77,7 @@ class DigitalProduct(models.Model):
         
         return variant_ids
 
+    
 
     
 class Variant(models.Model):
@@ -106,15 +107,19 @@ class SerialKey(models.Model):
     usage_count = models.IntegerField(default=0)
     digital_product = models.ForeignKey(DigitalProduct, on_delete=models.CASCADE)
 
-"""
+
 class Order(models.Model):
     order_id=models.TextField()
     order_name=models.TextField()
     product=models.ForeignKey(DigitalProduct, on_delete=models.CASCADE)
     variant=models.ForeignKey(Variant, on_delete=models.CASCADE)
     quantity=models.TextField()
+    has_download = models.BooleanField(default=False)
+    download_url = models.URLField(blank=True, null=True)
+
+
 
 class OrderKeys(models.Model):
     order=models.ForeignKey(Order, on_delete=models.CASCADE ,null=True)
     serial_key = models.ForeignKey(SerialKey, on_delete=models.CASCADE, null=True)
-"""
+

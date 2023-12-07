@@ -27,6 +27,8 @@ urlpatterns = [
   path('get_digital_product/', views.get_digital_product, name='get_digital_product'),
   path('get_variants_for_digital_product/', views.get_variants_for_digital_product, name='get_variants_for_digital_product'),
   path('edit-digital-product/', views.edit_digital_product, name='edit-digital-product'),
-
+  path('webhook/', views.createwebhook, name='webhooks'),
+  path('webhook/order-fulfilled',views.order_paid_webhook,name='order-fulfilled webhooks'),
+  path('webhook/app-uninstalled',views.app_uninstalled_webhook,name='order-fulfilled webhooks')
 
  ]

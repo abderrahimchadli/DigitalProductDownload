@@ -11,6 +11,7 @@ from django.contrib.auth import logout
 from django.http import HttpResponse,JsonResponse
 
 
+
 @login_required
 def check_user_billing(request):
     if request.user.is_authenticated:
@@ -334,7 +335,6 @@ def edit_digital_product(request):
 
 
 
-
 from django.core.exceptions import ValidationError
 from django.db import transaction
 from django.views.decorators.http import require_POST
@@ -640,5 +640,96 @@ def get_serial_keys(request):
         })
 
     return JsonResponse({"status":True,'data':keys_list})
+
+
+
+from django.views.decorators.csrf import csrf_exempt
+from auth_app.models import AuthAppShopUser
+
+import hmac
+
+def verify_hmac(secret, data, hmac):
+    """Verify the HMAC signature of a Shopify webhook request.
+
+    Args:
+        secret: The Shopify webhook secret key.
+        data: The body of the webhook request.
+        hmac: The HMAC signature of the webhook request.
+
+    Returns:
+        True if the HMAC signature is valid, False otherwise.
+    """
+
+    return hmac.new(secret.encode(), data.encode(), 'sha256').hexdigest() == hmac
+
+
+
+from django.contrib import messages
+@login_required
+def get_webhooks(request):
+    with request.user.session:
+        return shopify.Webhook.find()
+        
+
+@login_required
+def createwebhook(request):
+    orderpaid_endpoint = f'{settings.APP_URL}/webhook/order-fulfilled'
+    uninstall_endpoint = f'{settings.APP_URL}/webhook/uninstalled'
+    with request.user.session:
+        webhooks = get_webhooks(request)
+        exist_webhooks = { "orders/paid": False, "app/uninstalled": False }
+        for webhook in webhooks:
+            if webhook.topic == "orders/paid":
+                exist_webhooks["orders/paid"] = True
+            if webhook.topic == "app/uninstalled":
+                exist_webhooks["app/uninstalled"] = True
+        
+        
+        
+        if exist_webhooks["orders/paid"] == False:
+            shopify.Webhook.create({
+                    "address": orderpaid_endpoint,
+                    "topic":"orders/paid",
+                    "format":"json"
+                })
+        if exist_webhooks["app/uninstalled"] == False:
+                        shopify.Webhook.create({
+                    "address": uninstall_endpoint,
+                    "topic":"app/uninstalled",
+                    "format":"json"
+                })
+
+
+        # print(response)
+        return JsonResponse (json.dumps(exist_webhooks),safe=False)
+
+@csrf_exempt
+def order_paid_webhook(request):
+    print('order_paid_webhook_',request.headers )
+    verified = verify_webhook(request, request.headers['X-Shopify-Hmac-SHA256'])
+    if verified:
+
+        with open('request_body.txt', 'w') as log_file:
+            log_file.write((request.body.decode('utf-8')))
+
+    return HttpResponse(status=200)
+
+@csrf_exempt
+def app_uninstalled_webhook(request):
+    print('app_uninstalled_webhook',request)
+    return HttpResponse(status=200)
+
+
+import hmac , hashlib, base64
+
+
+
+def verify_webhook(request, hmac_header):
+    if request.method == 'POST':
+        digest = hmac.new(settings.SHOPIFY_APP_API_SECRET.encode('utf-8'), request.body, digestmod=hashlib.sha256).digest()
+        computed_hmac = base64.b64encode(digest)
+        return hmac.compare_digest(computed_hmac, hmac_header.encode('utf-8'))
+    return False
+
 
 

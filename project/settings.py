@@ -25,8 +25,8 @@ SECRET_KEY = 'django-insecure-u+n4!!2*c@6pb#%7ra!l1#6*$cc&eejb3)d1eizj5b5l1fqj3t
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["7700-196-119-7-182.ngrok-free.app"]
-APP_URL = 'https://7700-196-119-7-182.ngrok-free.app '
+ALLOWED_HOSTS = ["e265-196-119-225-199.ngrok-free.app"]
+APP_URL = 'https://e265-196-119-225-199.ngrok-free.app'
 
 # Application definition
 
@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     
     "shopify_auth",
+    'shopify_webhook',
+
     "auth_app",
     "products",
 ]
@@ -155,6 +157,7 @@ import os
 
 os.environ['SHOPIFY_APP_API_KEY']="c3c2443bb5788c5ad03a47958c47cfd3"
 os.environ['SHOPIFY_APP_API_SECRET']="7cd6b3e6401695bbd2ad340a5ce15964"
+SHOPIFY_HMAC_HEADER = "HTTP_X_SHOPIFY_HMAC_SHA256"
 
 SHOPIFY_APP_NAME = 'Digital Product Download'
 SHOPIFY_APP_API_KEY = os.environ.get('SHOPIFY_APP_API_KEY')
@@ -194,3 +197,13 @@ LOGIN_REDIRECT_URL = '/'
 # This ensures that correct 'https' URLs are generated when our Django app is running behind a proxy like nginx, or is
 # being tunneled (by ngrok, for example).
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+
+SHOPIFY_WEBHOOKS = {
+    'order_creation': {
+        'topic': 'orders/create',
+        'address': f'https://{APP_URL}/shopify/order-creation-webhook/',
+        'format': 'json',
+    },
+    # Add more webhooks as needed
+}
