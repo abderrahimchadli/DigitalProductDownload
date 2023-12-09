@@ -1,0 +1,309 @@
+{
+    "id": 4808225325208,
+    "admin_graphql_api_id": "gid://shopify/Order/4808225325208",
+    "app_id": 580111,
+    "browser_ip": "196.119.225.199",
+    "buyer_accepts_marketing": false,
+    "cancel_reason": null,
+    "cancelled_at": null,
+    "cart_token": "c1-fb717f72f967a04480244360dcd50dd0",
+    "checkout_id": 27511436837016,
+    "checkout_token": "d818da7cb16ed9fa80d0f7c483e7301e",
+    "client_details": {
+        "accept_language": "en-MA",
+        "browser_height": null,
+        "browser_ip": "196.119.225.199",
+        "browser_width": null,
+        "session_hash": null,
+        "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
+    },
+    "closed_at": null,
+    "company": null,
+    "confirmed": true,
+    "contact_email": "egaokira@gmail.com",
+    "created_at": "2023-12-09T17:47:27+01:00",
+    "currency": "MAD",
+    "current_subtotal_price": "0.00",
+    "current_subtotal_price_set": {
+        "shop_money": {
+            "amount": "0.00",
+            "currency_code": "MAD"
+        },
+        "presentment_money": {
+            "amount": "0.00",
+            "currency_code": "MAD"
+        }
+    },
+    "current_total_discounts": "0.00",
+    "current_total_discounts_set": {
+        "shop_money": {
+            "amount": "0.00",
+            "currency_code": "MAD"
+        },
+        "presentment_money": {
+            "amount": "0.00",
+            "currency_code": "MAD"
+        }
+    },
+    "current_total_duties_set": null,
+    "current_total_price": "0.00",
+    "current_total_price_set": {
+        "shop_money": {
+            "amount": "0.00",
+            "currency_code": "MAD"
+        },
+        "presentment_money": {
+            "amount": "0.00",
+            "currency_code": "MAD"
+        }
+    },
+    "current_total_tax": "0.00",
+    "current_total_tax_set": {
+        "shop_money": {
+            "amount": "0.00",
+            "currency_code": "MAD"
+        },
+        "presentment_money": {
+            "amount": "0.00",
+            "currency_code": "MAD"
+        }
+    },
+    "customer_locale": "en-MA",
+    "device_id": null,
+    "discount_codes": [],
+    "email": "egaokira@gmail.com",
+    "estimated_taxes": false,
+    "financial_status": "paid",
+    "fulfillment_status": null,
+    "gateway": null,
+    "landing_site": "/",
+    "landing_site_ref": null,
+    "location_id": null,
+    "merchant_of_record_app_id": null,
+    "name": "#1026",
+    "note": null,
+    "note_attributes": [],
+    "number": 26,
+    "order_number": 1026,
+    "order_status_url": "https://devdevkira.myshopify.com/56934465688/orders/efba11f8d7bd926db41bd23f853cb969/authenticate?key=980a4fbc3aff918bb2b72cf584254abb",
+    "original_total_duties_set": null,
+    "payment_gateway_names": [],
+    "phone": null,
+    "presentment_currency": "MAD",
+    "processed_at": "2023-12-09T17:47:25+01:00",
+    "processing_method": "",
+    "reference": "4c7a5bb035d718e509a5e92aaaeaa257",
+    "referring_site": "",
+    "source_identifier": "4c7a5bb035d718e509a5e92aaaeaa257",
+    "source_name": "web",
+    "source_url": null,
+    "subtotal_price": "0.00",
+    "subtotal_price_set": {
+        "shop_money": {
+            "amount": "0.00",
+            "currency_code": "MAD"
+        },
+        "presentment_money": {
+            "amount": "0.00",
+            "currency_code": "MAD"
+        }
+    },
+    "tags": "",
+    "tax_lines": [],
+    "taxes_included": false,
+    "test": false,
+    "token": "efba11f8d7bd926db41bd23f853cb969",
+    "total_discounts": "0.00",
+    "total_discounts_set": {
+        "shop_money": {
+            "amount": "0.00",
+            "currency_code": "MAD"
+        },
+        "presentment_money": {
+            "amount": "0.00",
+            "currency_code": "MAD"
+        }
+    },
+    "total_line_items_price": "0.00",
+    "total_line_items_price_set": {
+        "shop_money": {
+            "amount": "0.00",
+            "currency_code": "MAD"
+        },
+        "presentment_money": {
+            "amount": "0.00",
+            "currency_code": "MAD"
+        }
+    },
+    "total_outstanding": "0.00",
+    "total_price": "0.00",
+    "total_price_set": {
+        "shop_money": {
+            "amount": "0.00",
+            "currency_code": "MAD"
+        },
+        "presentment_money": {
+            "amount": "0.00",
+            "currency_code": "MAD"
+        }
+    },
+    "total_shipping_price_set": {
+        "shop_money": {
+            "amount": "0.00",
+            "currency_code": "MAD"
+        },
+        "presentment_money": {
+            "amount": "0.00",
+            "currency_code": "MAD"
+        }
+    },
+    "total_tax": "0.00",
+    "total_tax_set": {
+        "shop_money": {
+            "amount": "0.00",
+            "currency_code": "MAD"
+        },
+        "presentment_money": {
+            "amount": "0.00",
+            "currency_code": "MAD"
+        }
+    },
+    "total_tip_received": "0.00",
+    "total_weight": 0,
+    "updated_at": "2023-12-09T17:47:27+01:00",
+    "user_id": null,
+    "billing_address": {
+        "first_name": "Abderrahim",
+        "address1": "115 BLOC J HAY EL AMAL",
+        "phone": null,
+        "city": "KHOURIBGA",
+        "zip": "25000",
+        "province": null,
+        "country": "Morocco",
+        "last_name": "Chadli",
+        "address2": "BOUJNIBA",
+        "company": null,
+        "latitude": null,
+        "longitude": null,
+        "name": "Abderrahim Chadli",
+        "country_code": "MA",
+        "province_code": null
+    },
+    "customer": {
+        "id": 6559385583768,
+        "email": "egaokira@gmail.com",
+        "accepts_marketing": false,
+        "created_at": "2023-09-17T17:18:58+01:00",
+        "updated_at": "2023-12-09T17:47:27+01:00",
+        "first_name": "Abderrahim",
+        "last_name": "Chadli",
+        "state": "disabled",
+        "note": null,
+        "verified_email": true,
+        "multipass_identifier": null,
+        "tax_exempt": false,
+        "phone": null,
+        "email_marketing_consent": {
+            "state": "not_subscribed",
+            "opt_in_level": "single_opt_in",
+            "consent_updated_at": null
+        },
+        "sms_marketing_consent": null,
+        "tags": "",
+        "currency": "MAD",
+        "accepts_marketing_updated_at": "2023-09-17T17:18:58+01:00",
+        "marketing_opt_in_level": null,
+        "tax_exemptions": [],
+        "admin_graphql_api_id": "gid://shopify/Customer/6559385583768",
+        "default_address": {
+            "id": 7778549792920,
+            "customer_id": 6559385583768,
+            "first_name": "Abderrahim",
+            "last_name": "Chadli",
+            "company": null,
+            "address1": "115 BLOC J HAY EL AMAL",
+            "address2": "BOUJNIBA",
+            "city": "KHOURIBGA",
+            "province": null,
+            "country": "Morocco",
+            "zip": "25000",
+            "phone": null,
+            "name": "Abderrahim Chadli",
+            "province_code": null,
+            "country_code": "MA",
+            "country_name": "Morocco",
+            "default": true
+        }
+    },
+    "discount_applications": [],
+    "fulfillments": [],
+    "line_items": [
+        {
+            "id": 11867078918296,
+            "admin_graphql_api_id": "gid://shopify/LineItem/11867078918296",
+            "fulfillable_quantity": 1,
+            "fulfillment_service": "manual",
+            "fulfillment_status": null,
+            "gift_card": false,
+            "grams": 0,
+            "name": "aaap",
+            "price": "0.00",
+            "price_set": {
+                "shop_money": {
+                    "amount": "0.00",
+                    "currency_code": "MAD"
+                },
+                "presentment_money": {
+                    "amount": "0.00",
+                    "currency_code": "MAD"
+                }
+            },
+            "product_exists": true,
+            "product_id": 7684260135064,
+            "properties": [],
+            "quantity": 1,
+            "requires_shipping": false,
+            "sku": "",
+            "taxable": true,
+            "title": "aaap",
+            "total_discount": "0.00",
+            "total_discount_set": {
+                "shop_money": {
+                    "amount": "0.00",
+                    "currency_code": "MAD"
+                },
+                "presentment_money": {
+                    "amount": "0.00",
+                    "currency_code": "MAD"
+                }
+            },
+            "variant_id": 42794384359576,
+            "variant_inventory_management": null,
+            "variant_title": null,
+            "vendor": "devdevkira",
+            "tax_lines": [
+                {
+                    "channel_liable": false,
+                    "price": "0.00",
+                    "price_set": {
+                        "shop_money": {
+                            "amount": "0.00",
+                            "currency_code": "MAD"
+                        },
+                        "presentment_money": {
+                            "amount": "0.00",
+                            "currency_code": "MAD"
+                        }
+                    },
+                    "rate": 0.2,
+                    "title": "VAT"
+                }
+            ],
+            "duties": [],
+            "discount_allocations": []
+        }
+    ],
+    "payment_terms": null,
+    "refunds": [],
+    "shipping_lines": []
+}

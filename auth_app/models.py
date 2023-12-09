@@ -99,6 +99,7 @@ class File(models.Model):
 class DigitalProductFile(models.Model):
     digital_product = models.ForeignKey(DigitalProduct,on_delete=models.CASCADE)
     file = models.ForeignKey(File,on_delete=models.CASCADE)
+    variant=models.ForeignKey(Variant,on_delete=models.CASCADE)
 
 
 class SerialKey(models.Model):
@@ -109,16 +110,27 @@ class SerialKey(models.Model):
 
 
 class Order(models.Model):
-    order_id=models.TextField()
-    order_name=models.TextField()
-    product=models.ForeignKey(DigitalProduct, on_delete=models.CASCADE)
+    order_id=models.TextField(default=None,null=True)
+    order_name=models.TextField(default=None,null=True)
+    customerid=models.TextField(default=None,null=True)
+    customeremail=models.TextField(default=None,null=True)
+    customer_firstname=models.TextField(default=None,null=True)
+    customer_lastname=models.TextField(default=None,null=True)
+    
+class OrderLine(models.Model):
+    order=models.ForeignKey(Order, on_delete=models.CASCADE)
+    orderid=models.TextField(default=None,null=True)
     variant=models.ForeignKey(Variant, on_delete=models.CASCADE)
-    quantity=models.TextField()
-    has_download = models.BooleanField(default=False)
-    download_url = models.URLField(blank=True, null=True)
+    variantid=models.TextField(default=None,null=True)
+    fulfillable_quantity=models.TextField(default=None,null=True)
+    product=models.ForeignKey(DigitalProduct,on_delete=models.CASCADE)
+    productid=models.TextField(default=None,null=True)
+    price=models.TextField(default=None,null=True)
+    url = models.TextField(default=None,null=True)
+    #has_download = models.BooleanField(default=False)
 
 
-
+    
 class OrderKeys(models.Model):
     order=models.ForeignKey(Order, on_delete=models.CASCADE ,null=True)
     serial_key = models.ForeignKey(SerialKey, on_delete=models.CASCADE, null=True)

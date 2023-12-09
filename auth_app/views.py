@@ -5,7 +5,7 @@ from django.shortcuts import redirect
 from .models import Plan
 # Create your views here.
 from django.core import serializers
-from .models import Billing ,Plan,DigitalProduct,Variant,SerialKey,File,DigitalProductFile,SerialKey
+from .models import Billing ,Plan,DigitalProduct,Variant,SerialKey,File,DigitalProductFile,SerialKey,Order,OrderLine
 from django.conf import settings
 from django.contrib.auth import logout
 from django.http import HttpResponse,JsonResponse
@@ -376,6 +376,8 @@ def save_file(request):
             file_path = os.path.abspath(os.path.join('digital_product_files/', file_name))
             
             extension=os.path.splitext(file_path)[-1]
+            """ 
+            # to uncomment later
             storage_client = storage.Client.from_service_account_json('K:\PROJECTS\DigitalProductDownload\my-project-key.json')
             bucket_name = 'bucketfilename'
             blob_name = f'variants/File_{filename}_{request.user.myshopify_domain}{extension}'
@@ -391,12 +393,13 @@ def save_file(request):
             print(blob.size)
             filesize = blob.size
             link_url = blob.public_url
-            filename = filename + extension
+            filename = filename + extension 
+            """
             os.remove(file_path)
 
-            
+        # to uncomment later
         created_file = File.objects.create(name=filename,url=link_url,size=filesize)            
-
+        
 
         
         return JsonResponse({'success': True, 'message': 'File saved successfully, and reloaded to the file list.'}) if created_file else JsonResponse({'success': False, 'message': 'Error saving file.'})
@@ -440,6 +443,8 @@ def product_submit(request):
                         shopify_id=v['id'],
                         defaults={'name':v['title'],'sku':v['sku']}
                     )
+                #selected files 
+                
                 assigned_variants = assigned_variants+','+str(v['id'])
                 
             assigned_variants = assigned_variants.strip(',')
@@ -466,6 +471,19 @@ def product_submit(request):
                 user=request.user
             )            
             #print(assigned_variants)
+            
+            for v in variants:
+                v = json.loads(v)
+                
+                for selected_file in selectedfiles:
+                    variant = Variant.objects.get(shopify_id=v['id'])
+                    file = File.objects.get(id=selected_file)
+                    if variant and file:
+                        DigitalProductFile.objects.create(
+                            digital_product=digital_product,
+                            file=file,
+                            variant=variant
+                        )
 
             
             #print('no',generatedkeys)
@@ -482,7 +500,9 @@ def product_submit(request):
                         key=key,
                         digital_product=digital_product,
                         )
-            #selected files 
+
+            
+                
                 
                 
                 
@@ -711,6 +731,65 @@ def order_paid_webhook(request):
 
         with open('request_body.txt', 'w') as log_file:
             log_file.write((request.body.decode('utf-8')))
+            
+        data = json.loads(request.body.decode('utf-8'))
+
+        order_id = str(data.get('order_number'))
+        order_name = data.get('name')
+        customer_id = str(data.get('customer', {}).get('id'))
+        customer_email = data.get('email')
+        customer_firstname = data.get('customer', {}).get('first_name')
+        customer_lastname = data.get('customer', {}).get('last_name')
+
+        order = Order.objects.create(
+            order_id=order_id,
+            order_name=order_name,
+            customerid=customer_id,
+            customeremail=customer_email,
+            customer_firstname=customer_firstname,
+            customer_lastname=customer_lastname,
+        )
+
+        line_items = data.get('line_items', [])
+        for line_item in line_items:
+            order_id_line = str(data.get('id'))  
+            variant_id = str(line_item.get('variant_id'))
+            fulfillable_quantity = str(line_item.get('fulfillable_quantity'))
+            product_id = str(line_item.get('product_id'))
+            price = str(line_item.get('price'))
+
+            # Fetch the DigitalProduct associated with the product_id
+            digital_product = DigitalProduct.objects.filter(shopify_id=product_id).first()
+
+            if digital_product:
+                # Fetch the DigitalProductFile objects associated with the DigitalProduct
+                
+                variant=Variant.objects.filter(shopify_id=variant_id).first()
+                dpf = DigitalProductFile.objects.filter(digital_product_id=digital_product.id,variant=variant).first()
+                file = File.objects.filter(id=dpf.file_id).first()
+                
+                if dpf and file and variant:
+                    
+                    # Create OrderLine with the retrieved file URL
+                    
+                    order_line = OrderLine.objects.create(
+                        order=order,
+                        orderid=order_id_line,
+                        variant=variant,
+                        variantid=variant_id,
+                        fulfillable_quantity=fulfillable_quantity,
+                        product=digital_product,
+                        productid=digital_product.shopify_id,
+                        price=price,
+                        url=file.url
+                    )
+
+        # Log the received data if needed
+        with open(f'received_data-{order_id}.txt', 'w') as log_file:
+            log_file.write(json.dumps(data, indent=4))
+
+        return HttpResponse(status=200)
+        
 
     return HttpResponse(status=200)
 
