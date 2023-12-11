@@ -162,9 +162,9 @@ SHOPIFY_HMAC_HEADER = "HTTP_X_SHOPIFY_HMAC_SHA256"
 SHOPIFY_APP_NAME = 'Digital Product Download'
 SHOPIFY_APP_API_KEY = os.environ.get('SHOPIFY_APP_API_KEY')
 SHOPIFY_APP_API_SECRET = os.environ.get('SHOPIFY_APP_API_SECRET')
-SHOPIFY_APP_API_SCOPE = ['read_products', 'read_orders']
+SHOPIFY_APP_API_SCOPE = ['read_products','write_products', 'read_orders','write_orders','read_script_tags','write_script_tags','write_third_party_fulfillment_orders','read_third_party_fulfillment_orders','write_assigned_fulfillment_orders','write_assigned_fulfillment_orders','write_fulfillments','read_fulfillments']
 # Find API version to pin at https://help.shopify.com/en/api/versioning
-SHOPIFY_APP_API_VERSION = "2022-10"
+SHOPIFY_APP_API_VERSION = "2023-10"
 SHOPIFY_APP_IS_EMBEDDED = False
 SHOPIFY_APP_DEV_MODE = False
 

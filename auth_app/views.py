@@ -722,6 +722,9 @@ def createwebhook(request):
 
         # print(response)
         return JsonResponse (json.dumps(exist_webhooks),safe=False)
+    
+
+
 
 @csrf_exempt
 def order_paid_webhook(request):
@@ -734,7 +737,7 @@ def order_paid_webhook(request):
             
         data = json.loads(request.body.decode('utf-8'))
 
-        order_id = str(data.get('order_number'))
+        order_id = str(data.get('id'))
         order_name = data.get('name')
         customer_id = str(data.get('customer', {}).get('id'))
         customer_email = data.get('email')
@@ -783,6 +786,48 @@ def order_paid_webhook(request):
                         price=price,
                         url=file.url
                     )
+         
+        print('oooorrrddderr',order_id)
+        shop =AuthAppShopUser.objects.filter(myshopify_domain=request.headers['X-Shopify-Shop-Domain'].strip()).first()
+        if shop:
+            with shopify.Session.temp(shop.myshopify_domain, getattr(settings, 'SHOPIFY_APP_API_VERSION', 'unstable'), shop.token):
+                line_items = [{'id': item.get('id'), '': item.get('quantity')} for item in line_items]
+                #fulfillment = shopify.Fulfillment.create(order_id=order_id, line_items=line_items)
+                order = shopify.Order.find(order_id)
+
+                fulfillment = shopify.Fulfillment({
+                'order_id': order.id,
+                'location_id': 71647264989,
+                'line_items': order.line_items
+
+                })
+                fulfillment.save()
+
+
+                try:
+                    order = shopify.Order.find(order_id)
+
+                    # Create the fulfillment for the order
+                    #fulfillment = order.create_fulfillment(fulfillment=fulfillment_payload)
+#
+                    #fulfillment = shopify.Fulfillment.sa(order_id=order_id, **fulfillment_payload['fulfillment'])
+                    #fulfillment.save()  # Save the fulfillment
+#                    
+                    fulfillment = shopify.Fulfillment({'order_id':order_id,'line_items':line_items,'location_id':'null', 'tracking_number':''})
+                    fulfillment.tracking_company = 'DHL'
+                    fulfillment.tracking_number = '12343'
+                    fulfillment.notify_customer = True
+                    fulfillment.save()
+                           
+                    #print('Fulfillment created:', fulfillment)
+                    # Return a success response
+                    return HttpResponse(status=200)
+                except Exception as e:
+                    # Log the error or handle it accordingly
+                    print('Error creating fulfillment:', e)
+                    # Return an error response
+                    return HttpResponse(status=500)
+
 
         # Log the received data if needed
         with open(f'received_data-{order_id}.txt', 'w') as log_file:
