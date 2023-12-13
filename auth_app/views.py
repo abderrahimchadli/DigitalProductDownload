@@ -807,6 +807,21 @@ def order_paid_webhook(request):
                 try:
                     order = shopify.Order.find(order_id)
 
+
+
+
+
+
+
+
+
+
+
+
+                    # Create the fulfillment for the order
+
+                    # Create the fulfillment for the order
+
                     # Create the fulfillment for the order
                     #fulfillment = order.create_fulfillment(fulfillment=fulfillment_payload)
 #
