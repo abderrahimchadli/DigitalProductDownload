@@ -791,21 +791,45 @@ def order_paid_webhook(request):
         shop =AuthAppShopUser.objects.filter(myshopify_domain=request.headers['X-Shopify-Shop-Domain'].strip()).first()
         if shop:
             with shopify.Session.temp(shop.myshopify_domain, getattr(settings, 'SHOPIFY_APP_API_VERSION', 'unstable'), shop.token):
-                line_items = [{'id': item.get('id'), '': item.get('quantity')} for item in line_items]
-                #fulfillment = shopify.Fulfillment.create(order_id=order_id, line_items=line_items)
-                order = shopify.Order.find(order_id)
-
-                fulfillment = shopify.Fulfillment({
-                'order_id': order.id,
-                'location_id': 71647264989,
-                'line_items': order.line_items
-
-                })
-                fulfillment.save()
-
-
                 try:
-                    order = shopify.Order.find(order_id)
+                    fulfillmentorders=shopify.FulfillmentOrders.find(order_id=order_id)[0]
+                    print("iiiiid",fulfillmentorders.id)
+                    locationid= fulfillmentorders.assigned_location_id
+                    line_items = [{'id': item.get('id'), '': item.get('quantity')} for item in line_items]
+                    #fulfillment = shopify.Fulfillment.create(order_id=order_id, line_items=line_items)
+
+                   #fulfillment = shopify.Fulfillment({
+                   #    "fulfillment": {
+                   #        "line_items_by_fulfillment_order": [
+                   #        {  
+                   #        "fulfillment_order_id": fulfillmentorders.id,
+                   #        'line_items':line_items
+
+                   #        }]
+                   #        
+                   #    }
+                   #})
+                   #fulfillment.save()
+                    endpoint = f'https://{shop.myshopify_domain}/admin/api/{settings.SHOPIFY_APP_API_VERSION}/fulfillments.json'
+                    access_token = shop.token
+                    payload = {
+                                "fulfillment": {
+                                    "line_items_by_fulfillment_order": [
+                                        {
+                                            "fulfillment_order_id": fulfillmentorders.id
+                                        }
+                                    ]
+                                }
+                            }
+
+                    response = requests.post(endpoint, json=payload, headers={'X-Shopify-Access-Token': access_token})
+
+                    if response.status_code == 200:
+                            return JsonResponse({"message": "Fulfillment created successfully"})
+                    else:
+                            return JsonResponse({"error": f"Failed to create fulfillment: {response.text}"}, status=response.status_code)
+
+                
 
 
 
@@ -828,11 +852,11 @@ def order_paid_webhook(request):
                     #fulfillment = shopify.Fulfillment.sa(order_id=order_id, **fulfillment_payload['fulfillment'])
                     #fulfillment.save()  # Save the fulfillment
 #                    
-                    fulfillment = shopify.Fulfillment({'order_id':order_id,'line_items':line_items,'location_id':'null', 'tracking_number':''})
-                    fulfillment.tracking_company = 'DHL'
-                    fulfillment.tracking_number = '12343'
-                    fulfillment.notify_customer = True
-                    fulfillment.save()
+                    #fulfillment = shopify.Fulfillment({'order_id':order_id,'line_items':line_items,'location_id':'null', 'tracking_number':''})
+                    #fulfillment.tracking_company = 'DHL'
+                    #fulfillment.tracking_number = '12343'
+                    #fulfillment.notify_customer = True
+                    #fulfillment.save()
                            
                     #print('Fulfillment created:', fulfillment)
                     # Return a success response
@@ -841,7 +865,7 @@ def order_paid_webhook(request):
                     # Log the error or handle it accordingly
                     print('Error creating fulfillment:', e)
                     # Return an error response
-                    return HttpResponse(status=500)
+                    return HttpResponse(status=200)
 
 
         # Log the received data if needed
