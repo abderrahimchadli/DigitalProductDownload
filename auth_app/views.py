@@ -825,6 +825,44 @@ def order_paid_webhook(request):
                     response = requests.post(endpoint, json=payload, headers={'X-Shopify-Access-Token': access_token})
 
                     if response.status_code == 200:
+                            # Fetch the download links associated with the order ID
+
+                            download_links = fetch_download_links(order_id)
+
+                            # Prepare the download links for the response
+
+                            links_data = [{'title': link.title, 'url': link.url} for link in download_links]
+
+
+                            # Embedding the JavaScript fetch logic in the response
+                            js_code = f"""
+                                <script>
+                                    fetch('https://{settings.APP_URL}/fetch_download_links?order_id={order_id}')
+                                        .then(response => response.json())
+                                        .then(data => {{
+                                            const downloadLinksDiv = document.createElement('div');
+                                            downloadLinksDiv.innerHTML = '<h2>Your Download Links:</h2>';
+                                            data.forEach(link => {{
+                                                const anchor = document.createElement('a');
+                                                anchor.href = link.url;
+                                                anchor.innerText = link.title;
+                                                anchor.download = true;
+                                                downloadLinksDiv.appendChild(anchor);
+                                                downloadLinksDiv.appendChild(document.createElement('br'));
+                                            }});
+                                            document.querySelector('.order-confirmation').appendChild(downloadLinksDiv);
+                                        }})
+                                        .catch(error => console.error('Error fetching download links:', error));
+                                </script>
+                            """
+
+                            # Return the response with download links and embedded JavaScript
+                            return JsonResponse({'download_links': links_data, 'javascript_code': js_code})
+
+
+
+                        
+                        
                             return JsonResponse({"message": "Fulfillment created successfully"})
                     else:
                             return JsonResponse({"error": f"Failed to create fulfillment: {response.text}"}, status=response.status_code)
@@ -860,6 +898,8 @@ def order_paid_webhook(request):
                            
                     #print('Fulfillment created:', fulfillment)
                     # Return a success response
+                    
+                    
                     return HttpResponse(status=200)
                 except Exception as e:
                     # Log the error or handle it accordingly
@@ -876,6 +916,11 @@ def order_paid_webhook(request):
         
 
     return HttpResponse(status=200)
+
+
+def fetch_download_links(order_id):
+    # Fetch download links based on the order ID from the database
+    return OrderLine.objects.filter(orderid=order_id)
 
 @csrf_exempt
 def app_uninstalled_webhook(request):
